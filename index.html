@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Pencatat Tarawih & Witir</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #0f172a 0%, #1a1f3a 100%);
+    color: white;
+    text-align: center;
+    padding: 40px 20px;
+    min-height: 100vh;
+}
+h2 {
+    font-size: 32px;
+    margin-bottom: 10px;
+    background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+h3 {
+    font-size: 18px;
+    margin-bottom: 25px;
+    color: #cbd5e1;
+    font-weight: 500;
+}
+.container{
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    padding: 40px;
+    border-radius: 16px;
+    max-width: 750px;
+    margin: auto;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    border: 1px solid #334155;
+}
+button, select {
+    padding: 12px 20px;
+    margin: 8px;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+button:hover, select:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+button:active {
+    transform: translateY(0);
+}
+select {
+    background: #1e293b;
+    color: white;
+    border: 2px solid #475569;
+    cursor: pointer;
+}
+select:hover {
+    border-color: #64748b;
+}
+.tarawihBtn {
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    color: white;
+    border: none;
+}
+.tarawihBtn:hover {
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+}
+.witirBtn {
+    background: linear-gradient(135deg, #7c3aed, #6d28d9);
+    color: white;
+    border: none;
+}
+.witirBtn:hover {
+    background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+}
+.add {
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+    color: white;
+}
+.add:hover {
+    background: linear-gradient(135deg, #4ade80, #22c55e);
+}
+.reset {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    color: white;
+}
+.reset:hover {
+    background: linear-gradient(135deg, #f87171, #ef4444);
+}
+label {
+    margin-right: 12px;
+    font-weight: 600;
+    color: #e2e8f0;
+}
+div[id^="opsi"] {
+    margin: 15px 0;
+}
+table {
+    width: 100%;
+    margin-top: 30px;
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: 8px;
+    overflow: hidden;
+}
+th {
+    background: linear-gradient(135deg, #1e40af, #6d28d9);
+    padding: 12px 8px;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+}
+td {
+    padding: 12px 8px;
+    border-bottom: 1px solid #334155;
+}
+tr:last-child td {
+    border-bottom: none;
+}
+.tarawih {
+    background: linear-gradient(90deg, #1e40af 0%, #1e3a8a 100%);
+    transition: background 0.3s ease;
+}
+.tarawih:hover {
+    background: linear-gradient(90deg, #1e3a8a 0%, #1e40af 100%);
+}
+.witir {
+    background: linear-gradient(90deg, #6d28d9 0%, #581c87 100%);
+    transition: background 0.3s ease;
+}
+.witir:hover {
+    background: linear-gradient(90deg, #581c87 0%, #6d28d9 100%);
+}
+.break {
+    background: linear-gradient(90deg, #f59e0b 0%, #d97706 100%);
+    color: #1f2937;
+    font-weight: bold;
+}
+br {
+    display: block;
+    margin: 8px 0;
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+<h2>Pencatat Tarawih & Witir</h2>
+<h3 id="status">Mode: Tarawih</h3>
+
+<button class="tarawihBtn" onclick="modeTarawih()">Mode Tarawih</button>
+<button class="witirBtn" onclick="modeWitir()">Mode Witir</button>
+
+<br>
+
+<div id="opsiTarawih">
+<label id="labelHitung">Hitung Tarawih:</label>
+<select id="modeRakaat">
+<option value="1">Per 1 Rakaat</option>
+<option value="2">Per 2 Rakaat</option>
+</select>
+</div>
+
+<div id="opsiWitir" style="display:none">
+<label id="labelHitungWitir">Hitung Witir:</label>
+<select id="modeRakaatWitir">
+<option value="1">Per 1 Rakaat</option>
+<option value="2">Per 2 Rakaat</option>
+</select>
+</div>
+
+<br>
+
+<button class="add" onclick="tambah()" id="btnTambah">Tambah</button>
+<button class="reset" onclick="reset()">Reset</button>
+
+<table id="tabel">
+<tr>
+<th>Sholat</th>
+<th>Rakaat</th>
+<th>Waktu</th>
+</tr>
+</table>
+</div>
+
+<script>
+let mode="Tarawih"
+let rakaatTarawih=0
+let rakaatWitir=0
+
+function waktu(){
+    let now=new Date()
+    let h=String(now.getHours()).padStart(2,'0')
+    let m=String(now.getMinutes()).padStart(2,'0')
+    let s=String(now.getSeconds()).padStart(2,'0')
+    return h+":"+m+":"+s
+}
+
+function modeTarawih(){
+    mode="Tarawih"
+    document.getElementById("status").innerText="Mode: Tarawih"
+    document.getElementById("opsiTarawih").style.display="block"
+    document.getElementById("opsiWitir").style.display="none"
+    document.getElementById("btnTambah").innerText="Tambah Rakaat Tarawih"
+    document.getElementById("labelHitung").innerText="Hitung Tarawih:"
+}
+
+function modeWitir(){
+    mode="Witir"
+    document.getElementById("status").innerText="Mode: Witir"
+    document.getElementById("opsiTarawih").style.display="none"
+    document.getElementById("opsiWitir").style.display="block"
+    document.getElementById("btnTambah").innerText="Tambah Rakaat Witir"
+    document.getElementById("labelHitungWitir").innerText="Hitung Witir:"
+}
+
+function tambah(){
+    let tabel=document.getElementById("tabel")
+    
+    if(mode==="Tarawih"){
+        let hitung=parseInt(document.getElementById("modeRakaat").value)
+        if(rakaatTarawih>=20){
+            alert("Tarawih sudah selesai (20 rakaat)")
+            return
+        }
+        rakaatTarawih+=hitung
+        if(rakaatTarawih>20) rakaatTarawih=20
+        let teks=hitung===1 ? rakaatTarawih : (rakaatTarawih-1)+"-"+rakaatTarawih
+        tabel.innerHTML+=`
+        <tr class="tarawih">
+        <td>Tarawih</td>
+        <td>${teks}</td>
+        <td>${waktu()}</td>
+        </tr>`
+        if(rakaatTarawih===12 || rakaatTarawih===20){
+            tabel.innerHTML+=`
+            <tr class="break">
+            <td>-</td>
+            <td>Istirahat</td>
+            <td>${waktu()}</td>
+            </tr>`
+        }
+    }
+    else{
+        let hitung=parseInt(document.getElementById("modeRakaatWitir").value)
+        if(rakaatWitir>=3){
+            alert("Witir sudah selesai (3 rakaat)")
+            return
+        }
+        let start=rakaatWitir+1
+        rakaatWitir+=hitung
+        if(rakaatWitir>3) rakaatWitir=3
+        let teks=hitung===1 ? rakaatWitir : start+"-"+rakaatWitir
+        tabel.innerHTML+=`
+        <tr class="witir">
+        <td>Witir</td>
+        <td>${teks}</td>
+        <td>${waktu()}</td>
+        </tr>`
+    }
+}
+
+function reset(){
+    location.reload()
+}
+</script>
+</body>
+</html>
