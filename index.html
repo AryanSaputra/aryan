@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pencatat Tarawih & Witir</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
 * {
@@ -11,161 +12,367 @@
     padding: 0;
     box-sizing: border-box;
 }
-body{
+
+body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: linear-gradient(135deg, #0f172a 0%, #1a1f3a 100%);
     color: white;
     text-align: center;
-    padding: 40px 20px;
+    padding: 20px;
     min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
 }
+
 h2 {
-    font-size: 32px;
+    font-size: clamp(24px, 8vw, 36px);
     margin-bottom: 10px;
     background: linear-gradient(135deg, #3b82f6, #8b5cf6);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    letter-spacing: -0.5px;
 }
+
 h3 {
-    font-size: 18px;
-    margin-bottom: 25px;
+    font-size: clamp(14px, 5vw, 18px);
+    margin-bottom: 20px;
     color: #cbd5e1;
     font-weight: 500;
 }
-.container{
+
+.container {
     background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-    padding: 40px;
+    padding: clamp(20px, 5vw, 40px);
     border-radius: 16px;
-    max-width: 750px;
-    margin: auto;
+    width: 100%;
+    max-width: 800px;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
     border: 1px solid #334155;
+    animation: slideUp 0.5s ease-out;
 }
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.button-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
 button, select {
-    padding: 12px 20px;
-    margin: 8px;
+    padding: clamp(10px, 3vw, 12px) clamp(15px, 4vw, 20px);
     border: none;
     border-radius: 8px;
-    font-size: 15px;
+    font-size: clamp(13px, 3vw, 15px);
     font-weight: 600;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: pointer;
+    flex: 1;
+    min-width: 120px;
 }
+
 button:hover, select:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
 }
+
 button:active {
     transform: translateY(0);
 }
+
 select {
     background: #1e293b;
     color: white;
     border: 2px solid #475569;
     cursor: pointer;
+    flex: none;
+    min-width: auto;
+    width: 100%;
 }
+
 select:hover {
     border-color: #64748b;
 }
+
 .tarawihBtn {
     background: linear-gradient(135deg, #2563eb, #1d4ed8);
     color: white;
-    border: none;
 }
+
 .tarawihBtn:hover {
     background: linear-gradient(135deg, #3b82f6, #2563eb);
 }
+
 .witirBtn {
     background: linear-gradient(135deg, #7c3aed, #6d28d9);
     color: white;
-    border: none;
 }
+
 .witirBtn:hover {
     background: linear-gradient(135deg, #8b5cf6, #7c3aed);
 }
+
 .add {
     background: linear-gradient(135deg, #22c55e, #16a34a);
     color: white;
 }
+
 .add:hover {
     background: linear-gradient(135deg, #4ade80, #22c55e);
 }
+
 .reset {
     background: linear-gradient(135deg, #ef4444, #dc2626);
     color: white;
 }
+
 .reset:hover {
     background: linear-gradient(135deg, #f87171, #ef4444);
 }
+
 label {
-    margin-right: 12px;
+    display: block;
+    margin-bottom: 10px;
     font-weight: 600;
     color: #e2e8f0;
+    font-size: clamp(13px, 3vw, 15px);
+    text-align: left;
 }
+
 div[id^="opsi"] {
-    margin: 15px 0;
+    margin: 20px 0;
+    padding: 15px;
+    background: rgba(30, 41, 59, 0.5);
+    border-radius: 8px;
+    border-left: 4px solid #3b82f6;
 }
+
+#opsiWitir {
+    border-left-color: #8b5cf6;
+}
+
 table {
     width: 100%;
     margin-top: 30px;
-    border-collapse: separate;
-    border-spacing: 0;
+    border-collapse: collapse;
     border-radius: 12px;
     overflow: hidden;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    font-size: clamp(12px, 3vw, 15px);
 }
+
 th {
     background: linear-gradient(135deg, #1e40af, #6d28d9);
-    padding: 16px 12px;
+    padding: clamp(12px, 3vw, 16px) clamp(8px, 2vw, 12px);
     font-weight: 700;
     text-transform: uppercase;
-    font-size: 13px;
+    font-size: clamp(11px, 2.5vw, 13px);
     letter-spacing: 0.5px;
     color: #f0f9ff;
 }
+
 td {
-    padding: 14px 12px;
+    padding: clamp(12px, 3vw, 14px) clamp(8px, 2vw, 12px);
     border-bottom: 1px solid #334155;
+    word-break: break-word;
 }
+
 tr:last-child td {
     border-bottom: none;
 }
+
 .tarawih {
     background: linear-gradient(90deg, #1e40af 0%, #1e3a8a 100%);
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
+
 .tarawih:hover {
     background: linear-gradient(90deg, #3b82f6 0%, #2563eb 100%);
-    transform: scale(1.02);
+    transform: scale(1.01);
     box-shadow: 0 0 12px rgba(59, 130, 246, 0.4);
 }
+
 .witir {
     background: linear-gradient(90deg, #6d28d9 0%, #581c87 100%);
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
+
 .witir:hover {
     background: linear-gradient(90deg, #8b5cf6 0%, #7c3aed 100%);
-    transform: scale(1.02);
+    transform: scale(1.01);
     box-shadow: 0 0 12px rgba(139, 92, 246, 0.4);
 }
+
 .break {
     background: linear-gradient(90deg, #f59e0b 0%, #d97706 100%);
     color: #1f2937;
     font-weight: bold;
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
+
 .break:hover {
     background: linear-gradient(90deg, #fbbf24 0%, #f59e0b 100%);
-    transform: scale(1.02);
+    transform: scale(1.01);
     box-shadow: 0 0 12px rgba(245, 158, 11, 0.4);
 }
+
 br {
     display: block;
     margin: 8px 0;
+}
+
+/* Tablet & Desktop */
+@media (min-width: 768px) {
+    body {
+        padding: 40px 20px;
+    }
+
+    .container {
+        padding: 40px;
+    }
+
+    button, select {
+        min-width: 140px;
+        flex: 0 1 auto;
+    }
+
+    .button-group {
+        gap: 12px;
+    }
+
+    table {
+        font-size: 15px;
+    }
+}
+
+/* Large Desktop */
+@media (min-width: 1024px) {
+    .container {
+        max-width: 900px;
+    }
+
+    button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
+    }
+
+    .tarawih:hover, .witir:hover, .break:hover {
+        transform: scale(1.02);
+    }
+}
+
+/* Mobile optimization */
+@media (max-width: 480px) {
+    body {
+        padding: 12px;
+        min-height: 100vh;
+    }
+
+    .container {
+        padding: 18px;
+        border-radius: 12px;
+        max-width: 100%;
+    }
+
+    h2 {
+        font-size: 22px;
+        margin-bottom: 8px;
+    }
+
+    h3 {
+        font-size: 14px;
+        margin-bottom: 16px;
+    }
+
+    button, select {
+        width: 100%;
+        padding: 11px 12px;
+        margin-bottom: 10px;
+        font-size: 14px;
+    }
+
+    .button-group {
+        flex-direction: column;
+        gap: 10px;
+        margin-bottom: 18px;
+    }
+
+    button {
+        font-weight: 600;
+    }
+
+    select {
+        font-size: 13px;
+        padding: 10px;
+    }
+
+    label {
+        font-size: 12px;
+        margin-bottom: 8px;
+    }
+
+    div[id^="opsi"] {
+        margin: 15px 0;
+        padding: 12px;
+        border-radius: 6px;
+    }
+
+    table {
+        margin-top: 18px;
+        font-size: 11px;
+    }
+
+    th {
+        padding: 10px 5px;
+        font-size: 10px;
+    }
+
+    td {
+        padding: 9px 5px;
+        font-size: 11px;
+    }
+
+    br {
+        margin: 6px 0;
+    }
+}
+
+/* Extra small devices */
+@media (max-width: 360px) {
+    .container {
+        padding: 15px;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+
+    button, select {
+        padding: 10px;
+        font-size: 13px;
+        margin-bottom: 8px;
+    }
+
+    table {
+        font-size: 10px;
+    }
+
+    th, td {
+        padding: 8px 4px;
+    }
 }
 </style>
 </head>
