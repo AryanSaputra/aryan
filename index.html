@@ -15,7 +15,9 @@
 
 body {
     font-family: 'Poppins', sans-serif;
-    background: linear-gradient(135deg, #0f172a 0%, #1a1f3a 100%);
+    background: 
+        radial-gradient(ellipse at bottom, #1a1f3a 0%, #0f172a 70%),
+        linear-gradient(135deg, #0f172a 0%, #1a1f3a 100%);
     color: white;
     text-align: center;
     padding: 20px;
@@ -25,39 +27,134 @@ body {
     justify-content: center;
     align-items: center;
     line-height: 1.6;
+    position: relative;
+    overflow-x: hidden;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(2px 2px at 20px 30px, #f5a623, transparent),
+        radial-gradient(2px 2px at 40px 70px, #ff6b35, transparent),
+        radial-gradient(1px 1px at 90px 40px, #4ecdc4, transparent),
+        radial-gradient(1px 1px at 130px 80px, #45b7d1, transparent),
+        radial-gradient(2px 2px at 160px 30px, #f9ca24, transparent);
+    background-repeat: repeat;
+    background-size: 200px 100px;
+    animation: starsFloat 50s linear infinite;
+    z-index: -1;
+    opacity: 0.4;
+}
+
+@keyframes starsFloat {
+    0% { transform: translateY(0px) rotate(0deg); }
+    100% { transform: translateY(-100px) rotate(360deg); }
+}
+
+.crescent-moon {
+    position: fixed;
+    top: 10%;
+    right: 10%;
+    width: 80px;
+    height: 80px;
+    border: 4px solid #f4d03f;
+    border-radius: 50%;
+    box-shadow: 0 0 30px #f4d03f44;
+    transform: rotate(-25deg);
+    z-index: -1;
+    opacity: 0.6;
+    animation: moonGlow 4s ease-in-out infinite alternate;
+}
+
+@keyframes moonGlow {
+    from { box-shadow: 0 0 30px #f4d03f44; }
+    to { box-shadow: 0 0 50px #f4d03f88, 0 0 70px #f4d03f44; }
 }
 
 h2 {
-    font-size: clamp(24px, 8vw, 36px);
-    margin-bottom: 10px;
-    background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+    font-size: clamp(28px, 8vw, 42px);
+    margin-bottom: 12px;
+    background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 50%, #ec4899 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    letter-spacing: -0.5px;
+    letter-spacing: -1px;
+    font-weight: 800;
+    position: relative;
+    animation: titleShimmer 3s ease-in-out infinite;
+    text-shadow: 0 0 30px rgba(59, 130, 246, 0.5);
+}
+
+@keyframes titleShimmer {
+    0%, 100% { background-position: -200% 0; }
+    50% { background-position: 200% 0; }
+}
+
+h2 {
+    background-size: 200% 100% !important;
 }
 
 h3 {
-    font-size: clamp(14px, 5vw, 18px);
-    margin-bottom: 20px;
-    background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+    font-size: clamp(16px, 5vw, 20px);
+    margin-bottom: 24px;
+    background: linear-gradient(135deg, #10b981 0%, #3b82f6 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    font-weight: 600;
+    font-weight: 700;
+    text-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
 }
 
 .container {
-    background: rgba(30, 41, 59, 0.4);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    padding: clamp(24px, 6vw, 48px);
-    border-radius: 24px;
+    background: rgba(30, 41, 59, 0.5);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    padding: clamp(28px, 7vw, 56px);
+    border-radius: 32px;
     width: 100%;
-    max-width: 900px;
-    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    max-width: 950px;
+    box-shadow: 
+        0 35px 100px rgba(0, 0, 0, 0.6), 
+        inset 0 1px 0 rgba(255, 255, 255, 0.15),
+        0 0 50px rgba(59, 130, 246, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    animation: slideUpFloat 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    animation: containerShine 3s infinite;
+}
+
+@keyframes slideUpFloat {
+    from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes containerShine {
+    0% { left: -100%; }
+    100% { left: 100%; }
 }
 
 @keyframes slideUp {
@@ -108,8 +205,31 @@ button, select {
 }
 
 button:hover, select:hover {
-    transform: translateY(-2px) scale(1.02);
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 30px rgba(var(--button-glow));
+}
+
+button {
+    position: relative;
+    overflow: hidden;
+}
+
+button::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+button:active::before {
+    width: 300px;
+    height: 300px;
 }
 
 button:active {
@@ -132,7 +252,10 @@ select:hover {
 }
 
 .tarawihBtn {
-    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    --button-glow: 59, 130, 246;
+    background: linear-gradient(135deg, #2563eb, #1d4ed8, #1e40af);
+    background-size: 200% 200%;
+    animation: gradientShift 4s ease infinite;
     color: white;
 }
 
@@ -141,7 +264,10 @@ select:hover {
 }
 
 .witirBtn {
-    background: linear-gradient(135deg, #7c3aed, #6d28d9);
+    --button-glow: 139, 92, 246;
+    background: linear-gradient(135deg, #7c3aed, #6d28d9, #581c87);
+    background-size: 200% 200%;
+    animation: gradientShift 4s ease infinite reverse;
     color: white;
 }
 
@@ -190,20 +316,44 @@ div[id^="opsi"] {
 
 .table-wrapper {
     width: 100%;
-    margin-top: 30px;
-    border-radius: 20px;
+    margin-top: 36px;
+    border-radius: 24px;
     overflow: hidden;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.5), 0 0 30px rgba(59, 130, 246, 0.2);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    animation: tableFadeIn 0.6s ease-out 0.3s both;
+}
+
+@keyframes tableFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
-    background: rgba(30, 41, 59, 0.6);
-    backdrop-filter: blur(15px);
-    font-size: clamp(12px, 3vw, 15px);
+    background: rgba(30, 41, 59, 0.7);
+    backdrop-filter: blur(20px);
+    font-size: clamp(13px, 3vw, 16px);
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+tbody tr:nth-child(even) {
+    background: rgba(51, 65, 85, 0.4);
+}
+
+tbody tr:hover {
+    background: rgba(79, 70, 229, 0.2) !important;
+    transform: scale(1.01);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
 }
 
 th {
@@ -222,14 +372,10 @@ th {
 }
 
 td {
-    padding: clamp(14px, 3.5vw, 16px) clamp(12px, 3vw, 16px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding: clamp(16px, 4vw, 18px) clamp(14px, 3.5vw, 18px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     word-break: break-word;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 0;
-    transition: background 0.2s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
 }
 
@@ -434,20 +580,51 @@ br {
 /* Countdown Styles */
 .countdown-display {
     text-align: center;
-    padding: clamp(24px, 5vw, 40px);
-    margin-bottom: 32px;
-    background: rgba(30, 41, 59, 0.3);
-    backdrop-filter: blur(25px);
-    -webkit-backdrop-filter: blur(25px);
-    border-radius: 24px;
-    border: 2px solid rgba(59, 130, 246, 0.4);
-    box-shadow: 0 20px 60px rgba(59, 130, 246, 0.2), 0 0 40px rgba(139, 92, 246, 0.1);
-    animation: pulseGlow 2s ease-in-out infinite alternate, slideUp 0.8s ease-out;
+    padding: clamp(32px, 6vw, 52px);
+    margin-bottom: 40px;
+    background: rgba(15, 23, 42, 0.4);
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    border-radius: 32px;
+    border: 2px solid rgba(59, 130, 246, 0.6);
+    box-shadow: 
+        0 30px 80px rgba(59, 130, 246, 0.3), 
+        0 0 60px rgba(139, 92, 246, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    animation: pulseGlowBig 2.5s ease-in-out infinite alternate, slideUp 1s ease-out;
+    position: relative;
+    overflow: hidden;
+}
+
+.countdown-display::before {
+    content: '🕌';
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 32px;
+    opacity: 0.3;
+    animation: floatIcon 3s ease-in-out infinite;
+}
+
+@keyframes floatIcon {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-10px) rotate(5deg); }
+}
+
+@keyframes pulseGlowBig {
+    from { box-shadow: 0 30px 80px rgba(59, 130, 246, 0.3), 0 0 60px rgba(139, 92, 246, 0.2); }
+    to { box-shadow: 0 40px 100px rgba(59, 130, 246, 0.4), 0 0 80px rgba(139, 92, 246, 0.3); }
 }
 
 @keyframes pulseGlow {
     from { box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3); }
     to { box-shadow: 0 10px 30px rgba(139, 92, 246, 0.5); }
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 #countdownTitle {
@@ -533,8 +710,8 @@ br {
 <h3 id="status">Mode: Tarawih</h3>
 
 <div class="mode-buttons">
-<button class="tarawihBtn" onclick="modeTarawih()" aria-label="Switch to Tarawih mode">🌙 Tarawih</button>
-<button class="witirBtn" onclick="modeWitir()" aria-label="Switch to Witir mode">✨ Witir</button>
+<button class="tarawihBtn" onclick="modeTarawih()" aria-label="Switch to Tarawih mode">🕌 Tarawih</button>
+<button class="witirBtn" onclick="modeWitir()" aria-label="Switch to Witir mode">🌟 Witir</button>
 </div>
 
 <div id="opsiTarawih">
