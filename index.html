@@ -421,7 +421,7 @@ br {
 </div>
 
 <div id="opsiTarawih">
-<label id="labelHitung">Hitung Tarawih:</label>
+<label id="labelHitung">Hitung Tarawih:</label><br>
 <select id="modeRakaat">
 <option value="1">Per 1 Rakaat</option>
 <option value="2">Per 2 Rakaat</option>
@@ -429,7 +429,7 @@ br {
 </div>
 
 <div id="opsiWitir" style="display:none">
-<label id="labelHitungWitir">Hitung Witir:</label>
+<label id="labelHitungWitir">Hitung Witir:</label><br>
 <select id="modeRakaatWitir">
 <option value="1">Per 1 Rakaat</option>
 <option value="2">Per 2 Rakaat</option>
@@ -510,8 +510,8 @@ function cekRamadan(){
     let sekarang = new Date()
 
     // Tanggal Ramadan (ubah setiap tahun)
-    let mulai = new Date("2026-02-18")
-    let selesai = new Date("2026-03-19")
+    let mulai = new Date("2026-03-18")
+    let selesai = new Date("2026-04-19")
 
     if(sekarang < mulai || sekarang > selesai){
         document.body.innerHTML = `
