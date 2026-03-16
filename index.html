@@ -14,15 +14,17 @@
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Poppins', sans-serif;
     background: linear-gradient(135deg, #0f172a 0%, #1a1f3a 100%);
     color: white;
     text-align: center;
     padding: 20px;
     min-height: 100vh;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+    line-height: 1.6;
 }
 
 h2 {
@@ -38,19 +40,24 @@ h2 {
 h3 {
     font-size: clamp(14px, 5vw, 18px);
     margin-bottom: 20px;
-    color: #cbd5e1;
-    font-weight: 500;
+    background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 600;
 }
 
 .container {
-    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-    padding: clamp(20px, 5vw, 40px);
-    border-radius: 16px;
+    background: rgba(30, 41, 59, 0.4);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    padding: clamp(24px, 6vw, 48px);
+    border-radius: 24px;
     width: 100%;
-    max-width: 800px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
-    border: 1px solid #334155;
-    animation: slideUp 0.5s ease-out;
+    max-width: 900px;
+    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @keyframes slideUp {
@@ -64,12 +71,28 @@ h3 {
     }
 }
 
+@keyframes fadeInRow {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+tr {
+    animation: fadeInRow 0.4s ease-out;
+}
+
 .button-group {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 16px;
     justify-content: center;
-    margin-bottom: 20px;
+    margin-bottom: 28px;
+    max-width: 600px;
 }
 
 button, select {
@@ -85,12 +108,13 @@ button, select {
 }
 
 button:hover, select:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
 }
 
 button:active {
-    transform: translateY(0);
+    transform: translateY(-1px) scale(0.98);
+    transition: transform 0.1s ease;
 }
 
 select {
@@ -164,30 +188,53 @@ div[id^="opsi"] {
     border-left-color: #8b5cf6;
 }
 
-table {
+.table-wrapper {
     width: 100%;
     margin-top: 30px;
-    border-collapse: collapse;
-    border-radius: 12px;
+    border-radius: 20px;
     overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: rgba(30, 41, 59, 0.6);
+    backdrop-filter: blur(15px);
     font-size: clamp(12px, 3vw, 15px);
 }
 
 th {
-    background: linear-gradient(135deg, #1e40af, #6d28d9);
-    padding: clamp(12px, 3vw, 16px) clamp(8px, 2vw, 12px);
+    background: linear-gradient(135deg, rgba(30, 64, 175, 0.9), rgba(109, 40, 217, 0.9));
+    backdrop-filter: blur(10px);
+    padding: clamp(14px, 3.5vw, 18px) clamp(10px, 2.5vw, 14px);
     font-weight: 700;
     text-transform: uppercase;
-    font-size: clamp(11px, 2.5vw, 13px);
-    letter-spacing: 0.5px;
+    font-size: clamp(12px, 3vw, 14px);
+    letter-spacing: 1px;
     color: #f0f9ff;
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
 }
 
 td {
-    padding: clamp(12px, 3vw, 14px) clamp(8px, 2vw, 12px);
-    border-bottom: 1px solid #334155;
+    padding: clamp(14px, 3.5vw, 16px) clamp(12px, 3vw, 16px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     word-break: break-word;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 0;
+    transition: background 0.2s ease;
+    position: relative;
+}
+
+td:hover {
+    background: rgba(255, 255, 255, 0.05);
 }
 
 tr:last-child td {
@@ -276,77 +323,55 @@ br {
 
 /* Mobile optimization */
 @media (max-width: 480px) {
-    body {
-        padding: 12px;
-        min-height: 100vh;
-    }
-
-    .container {
-        padding: 18px;
-        border-radius: 12px;
-        max-width: 100%;
-    }
-
-    h2 {
-        font-size: 22px;
-        margin-bottom: 8px;
-    }
-
-    h3 {
-        font-size: 14px;
-        margin-bottom: 16px;
-    }
-
-    button, select {
-        width: 100%;
-        padding: 11px 12px;
-        margin-bottom: 10px;
-        font-size: 14px;
-    }
-
     .button-group {
-        flex-direction: column;
-        gap: 10px;
-        margin-bottom: 18px;
+        grid-template-columns: 1fr;
+        gap: 12px;
+        margin-bottom: 20px;
     }
 
-    button {
-        font-weight: 600;
-    }
-
-    select {
-        font-size: 13px;
-        padding: 10px;
-    }
-
-    label {
-        font-size: 12px;
-        margin-bottom: 8px;
-    }
-
-    div[id^="opsi"] {
-        margin: 15px 0;
-        padding: 12px;
-        border-radius: 6px;
+    .table-wrapper {
+        border-radius: 16px;
+        margin-top: 20px;
     }
 
     table {
-        margin-top: 18px;
-        font-size: 11px;
+        font-size: 13px;
     }
 
     th {
-        padding: 10px 5px;
-        font-size: 10px;
-    }
-
-    td {
-        padding: 9px 5px;
+        padding: 12px 8px;
         font-size: 11px;
     }
 
-    br {
-        margin: 6px 0;
+    td {
+        padding: 10px 8px;
+        font-size: 12px;
+    }
+
+    body {
+        padding: 16px;
+    }
+
+    .container {
+        padding: 24px;
+        border-radius: 20px;
+    }
+
+    div[id^="opsi"] {
+        padding: 16px;
+        border-radius: 12px;
+        margin: 18px 0;
+    }
+
+    .metode-box {
+        flex-direction: column;
+        gap: 12px;
+        align-items: stretch;
+    }
+
+    .metode-box select {
+        width: 100%;
+        min-width: unset;
     }
 }
 
@@ -375,39 +400,131 @@ br {
     }
 }
 
-.metode-box{
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    gap:10px;
-    margin-bottom:20px;
+.metode-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
 }
 
-.metode-box label{
-    margin:0;
-    font-weight:600;
+.metode-box label {
+    margin: 0;
+    font-weight: 600;
+    font-size: clamp(14px, 3.5vw, 16px);
+    white-space: nowrap;
 }
 
-.metode-box select{
-    width:auto;
-    min-width:160px;
-    padding:8px 12px;
+.metode-box select {
+    flex: 1;
+    min-width: 160px;
+    max-width: 220px;
+    padding: clamp(12px, 3vw, 14px) clamp(18px, 4vw, 24px);
+    border-radius: 12px;
 }
 
 .mode-buttons{
     display:flex;
     gap:10px;
     justify-content:center;
-    margin-bottom:15px;
+    margin-bottom: 20px;
+}
+
+/* Countdown Styles */
+.countdown-display {
+    text-align: center;
+    padding: clamp(24px, 5vw, 40px);
+    margin-bottom: 32px;
+    background: rgba(30, 41, 59, 0.3);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border-radius: 24px;
+    border: 2px solid rgba(59, 130, 246, 0.4);
+    box-shadow: 0 20px 60px rgba(59, 130, 246, 0.2), 0 0 40px rgba(139, 92, 246, 0.1);
+    animation: pulseGlow 2s ease-in-out infinite alternate, slideUp 0.8s ease-out;
+}
+
+@keyframes pulseGlow {
+    from { box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3); }
+    to { box-shadow: 0 10px 30px rgba(139, 92, 246, 0.5); }
+}
+
+#countdownTitle {
+    font-size: clamp(20px, 6vw, 32px);
+    margin-bottom: 20px;
+    background: linear-gradient(135deg, #3b82f6, #8b5cf6, #ec4899);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 700;
+}
+
+.timer-display {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+}
+
+.timer-display span {
+    background: linear-gradient(135deg, #1e40af, #7c3aed);
+    padding: 15px 20px;
+    border-radius: 12px;
+    font-size: clamp(18px, 5vw, 28px);
+    font-weight: 700;
+    min-width: 70px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+    position: relative;
+    overflow: hidden;
+}
+
+.timer-display span::after {
+    content: attr(data-label);
+    position: absolute;
+    bottom: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.5em;
+    font-weight: 500;
+    opacity: 0.8;
+}
+
+@media (max-width: 480px) {
+    .timer-display {
+        gap: 10px;
+    }
+    .timer-display span {
+        padding: 12px 15px;
+        min-width: 60px;
+        font-size: 20px;
+    }
 }
 </style>
+
 </head>
 
 <body>
+
+<div id="lebaranCountdown" class="countdown-container">
+  
+  <!-- Countdown Section -->
+  <div id="countdownSection" class="countdown-display">
+<h1 id="countdownTitle">⏳ Menuju Hari Raya Idul Fitri</h1>
+    <div id="countdownTimer" class="timer-display">
+      <span id="days">00</span>
+      <span id="hours">00</span>
+      <span id="minutes">00</span>
+      <span id="seconds">00</span>
+    </div>
+    <p id="lebaranMessage" style="display:none; font-size: 1.2em; margin-top: 20px;">🎉 Selamat Idul Fitri! Website ditutup sementara. Maaf lahir batin! 🕌</p>
+  </div>
+
 <div class="container">
 <h2>Pencatat Tarawih & Witir</h2>
 <div class="metode-box">
-<label>Pilih Metode:</label>
+<label for="metodeRamadan">Pilih Metode:</label>
 <select id="metodeRamadan" onchange="gantiMetode()">
 <option value="NU">Nahdlatul Ulama</option>
 <option value="Muhammadiyah">Muhammadiyah</option>
@@ -416,8 +533,8 @@ br {
 <h3 id="status">Mode: Tarawih</h3>
 
 <div class="mode-buttons">
-<button class="tarawihBtn" onclick="modeTarawih()">Mode Tarawih</button>
-<button class="witirBtn" onclick="modeWitir()">Mode Witir</button>
+<button class="tarawihBtn" onclick="modeTarawih()" aria-label="Switch to Tarawih mode">🌙 Tarawih</button>
+<button class="witirBtn" onclick="modeWitir()" aria-label="Switch to Witir mode">✨ Witir</button>
 </div>
 
 <div id="opsiTarawih">
@@ -436,9 +553,10 @@ br {
 </select>
 </div>
 
-<button class="add" onclick="tambah()" id="btnTambah">Tambah</button>
+<button class="add" onclick="tambah()" id="btnTambah" aria-live="polite">➕ Tambah</button>
 <button class="reset" onclick="reset()">Reset</button>
 
+<div class="table-wrapper">
 <table id="tabel">
 <tr>
 <th>Salat</th>
@@ -446,6 +564,7 @@ br {
 <th>Waktu</th>
 </tr>
 </table>
+</div>
 </div>
 
 <script>
@@ -464,46 +583,54 @@ function gantiMetode(){
     </tr>`
 }
 
-function cekRamadan(){
+// Countdown to Idul Fitri
+const targetDate = new Date('2026-03-21T06:00:00'); // Website tutup sesuai request
 
-let metode = document.getElementById("metodeRamadan")?.value || "muhammadiyah"
-
-let sekarang = new Date()
-
-let mulai
-let selesai
-
-// Ramadan 2026
-if(metode === "muhammadiyah"){
-    mulai = new Date("2026-02-18")
-    selesai = new Date("2026-03-19")
-}
-else if(metode === "nu"){
-    mulai = new Date("2026-02-19")
-    selesai = new Date("2026-03-20")
-}
-
-if(sekarang < mulai || sekarang > selesai){
-document.body.innerHTML = `
-<div style="
-display:flex;
-justify-content:center;
-align-items:center;
-height:100vh;
-background:#0f172a;
-color:white;
-text-align:center;
-font-family:sans-serif;
-">
-<div>
-<h1>🌙 Website hanya tersedia saat bulan Ramadan</h1>
-<p>Metode: ${metode.toUpperCase()}</p>
-</div>
-</div>
-`
+function updateCountdown() {
+    const now = new Date();
+    const timeLeft = targetDate - now;
+    
+    if (timeLeft <= 0) {
+        document.getElementById('countdownSection').innerHTML = `
+            <h1 style="font-size: clamp(24px, 8vw, 48px); background: linear-gradient(135deg, #22c55e, #4ade80); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">🎉 SELAMAT HARI RAYA IDUL FITRI! 🎉</h1>
+            <p id="lebaranMessage" style="font-size: 1.4em; margin-top: 20px; color: #4ade80; font-weight: 600;">Website ditutup sementara. Maaf lahir batin! 🕌<br>Selamat Hari Raya Idul Fitri.</p>
+        `;
+        // Optionally hide main app
+        const mainContainer = document.querySelector('.container');
+        if (mainContainer) mainContainer.style.display = 'none';
+        return;
+    }
+    
+    const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+    
+    document.getElementById('days').textContent = days.toString().padStart(2, '0');
+    document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+    document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+    document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+    
+    document.getElementById('days').setAttribute('data-label', 'Hari');
+    document.getElementById('hours').setAttribute('data-label', 'Jam');
+    document.getElementById('minutes').setAttribute('data-label', 'Menit');
+    document.getElementById('seconds').setAttribute('data-label', 'Detik');
 }
 
+function cekLebaran() {
+    const now = new Date();
+    if (now >= targetDate) {
+        updateCountdown(); // Triggers celebration
+        return;
+    }
+    updateCountdown();
 }
+
+// Start countdown
+cekLebaran();
+setInterval(updateCountdown, 1000);
+
+
 
 // Batasi akses hanya saat Ramadan
 function cekRamadan(){
@@ -580,22 +707,26 @@ if(rakaatTarawih >= maksimal){
         rakaatTarawih+=hitung
         if(rakaatTarawih>maksimal) rakaatTarawih=maksimal
         let teks=hitung===1 ? rakaatTarawih : (rakaatTarawih-1)+"-"+rakaatTarawih
-        tabel.innerHTML+=`
-        <tr class="tarawih">
+        let newRow = document.createElement('tr');
+        newRow.className = 'tarawih';
+        newRow.innerHTML = `
         <td>Tarawih</td>
         <td>${teks}</td>
         <td>${waktu()}</td>
-        </tr>`
+        `;
+        tabel.appendChild(newRow);
         if(
 (metode==="NU" && (rakaatTarawih===12 || rakaatTarawih===20)) ||
 (metode==="Muhammadiyah" && rakaatTarawih===8)
 ){
-            tabel.innerHTML+=`
-            <tr class="break">
+            let breakRow = document.createElement('tr');
+            breakRow.className = 'break';
+            breakRow.innerHTML = `
             <td>-</td>
             <td>Istirahat</td>
             <td>${waktu()}</td>
-            </tr>`
+            `;
+            tabel.appendChild(breakRow);
         }
     }
     else{
@@ -608,12 +739,14 @@ if(rakaatTarawih >= maksimal){
         rakaatWitir+=hitung
         if(rakaatWitir>3) rakaatWitir=3
         let teks=hitung===1 ? rakaatWitir : start+"-"+rakaatWitir
-        tabel.innerHTML+=`
-        <tr class="witir">
+        let witirRow = document.createElement('tr');
+        witirRow.className = 'witir';
+        witirRow.innerHTML = `
         <td>Witir</td>
         <td>${teks}</td>
         <td>${waktu()}</td>
-        </tr>`
+        `;
+        tabel.appendChild(witirRow);
     }
 }
 
