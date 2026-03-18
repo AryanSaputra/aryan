@@ -35,6 +35,7 @@ body {
     color: var(--text-primary);
     min-height: 100vh;
     overflow-x: hidden;
+    overscroll-behavior: none;
     position: relative;
 }
 
@@ -580,7 +581,7 @@ body::before {
     box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
 }
 
-.table-container-new {
+    .table-container-new {
     background: var(--glass-bg);
     border-radius: 20px;
     overflow: hidden;
@@ -588,11 +589,18 @@ body::before {
     border-top: 1px solid var(--glass-border);
 }
 
+.table-scroll-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+}
+
 .table-wrapper-new {
     max-height: 420px;
     overflow-y: auto;
     scrollbar-width: thin;
     scrollbar-color: rgba(139, 92, 246, 0.4) transparent;
+    overscroll-behavior: contain;
 }
 
 .table-wrapper-new::-webkit-scrollbar {
@@ -691,65 +699,167 @@ tr:hover {
 /* Mobile Optimizations */
 @media (max-width: 768px) {
     .main-container {
-        padding: 16px;
-        gap: 24px;
+        padding: 12px;
+        gap: 20px;
     }
     
     .app-container {
-        padding: 24px;
+        padding: 20px 16px;
         border-radius: 20px;
     }
     
-    .mode-selector, .action-buttons {
+    .countdown-card {
+        padding: 24px 20px;
+    }
+    
+    .control-card {
+        padding: 20px 16px;
+    }
+    
+    .mode-selector, 
+    .action-buttons {
         flex-direction: column;
+        gap: 16px;
     }
     
     .mode-btn, .action-btn {
         max-width: none;
+        min-height: 56px;
+        padding: 20px 24px;
     }
     
     .tab-nav {
         gap: 8px;
+        justify-content: center;
     }
     
     .tab-button {
         padding: 14px 20px;
         font-size: 14px;
-        min-height: 56px;
-    }
-    
-    table, th, td {
-        font-size: 14px;
-    }
-    
-    th, td {
-        padding: 16px 8px;
-    }
-}
-
-@media (max-width: 480px) {
-    .timer-display {
-        gap: 12px;
-    }
-    
-    .timer-unit {
-        padding: 16px 12px;
-        min-width: 75px;
-    }
-    
-    .timer-number {
-        font-size: 24px;
+        min-height: 52px;
+        flex: 1;
     }
     
     .rakaat-selector {
         flex-direction: column;
-        gap: 12px;
+        gap: 16px;
         text-align: center;
+        padding: 20px 16px;
+    }
+    
+    .rakaat-selector select {
+        width: 180px;
+        min-height: 52px;
     }
     
     .progress-section {
         flex-direction: column;
         align-items: center;
+        gap: 20px;
+    }
+    
+    .progress-card {
+        min-width: 180px;
+    }
+    
+    .section-header-new {
+        flex-direction: column;
+        gap: 16px;
+        text-align: center;
+        padding: 20px 16px;
+    }
+    
+    .header-content,
+    .header-actions {
+        justify-content: center;
+        width: 100%;
+    }
+    
+    .table-container-new .table-scroll-wrapper {
+        border-radius: 0 0 20px 20px;
+    }
+    
+    .table-wrapper-new {
+        max-height: 400px;
+    }
+    
+    table {
+        min-width: 600px;
+        font-size: 14px;
+    }
+    
+    th, td {
+        padding: 14px 10px;
+        font-size: 13px;
+    }
+    
+    .record-stats-new {
+        padding: 10px 16px;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-container {
+        padding: 8px;
+        gap: 16px;
+    }
+    
+    .app-container {
+        padding: 16px 12px;
+    }
+    
+    .app-title {
+        font-size: 28px;
+    }
+    
+    .timer-display {
+        gap: 10px;
+    }
+    
+    .timer-unit {
+        padding: 14px 10px;
+        min-width: 70px;
+    }
+    
+    .timer-number {
+        font-size: 22px;
+    }
+    
+    .mode-btn, .action-btn,
+    .tab-button {
+        min-height: 56px;
+        padding: 18px 20px;
+    }
+    
+    .rakaat-selector {
+        padding: 16px 12px;
+    }
+    
+    .rakaat-selector select {
+        width: 100%;
+        max-width: 200px;
+    }
+    
+    table {
+        min-width: 550px;
+    }
+    
+    th, td {
+        padding: 12px 8px;
+        font-size: 12px;
+    }
+    
+    .table-wrapper-new {
+        max-height: 350px;
+    }
+    
+    .section-header-new {
+        padding: 16px 12px;
+    }
+    
+    .header-content h3 {
+        font-size: 20px;
     }
 }
 
@@ -919,7 +1029,8 @@ button:focus, select:focus {
         </div>
       </div>
       <div class="table-container-new">
-        <div class="table-wrapper-new">
+        <div class="table-scroll-wrapper">
+          <div class="table-wrapper-new">
           <table id="tabel" role="grid">
             <thead>
               <tr>
@@ -1317,33 +1428,35 @@ style.textContent = `
 @keyframes celebratePulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.05); } }
 @keyframes confetti-fall { 0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; } 100% { transform: translateY(100vh) rotate(720deg); opacity: 0; } }
 
-@media (max-width: 768px) {
-  .main-container { padding: 16px; gap: 20px; }
-  .app-container { padding: 24px 20px; border-radius: 20px; }
-  .control-card { padding: 20px; }
-  .records-section { margin-top: 24px; }
-  .section-header.premium { padding: 20px 24px; flex-direction: column; gap: 16px; text-align: center; }
-  .header-left { justify-content: center; }
-  .header-right { justify-content: center; }
-  .table-scroll-wrapper { 
-    overflow-x: auto; overflow-y: hidden; max-height: none; 
-    -webkit-overflow-scrolling: touch;
+@media (min-width: 769px) {
+  .main-container {
+    padding: 24px 20px;
+    gap: 32px;
   }
-  table { 
-    min-width: 500px; font-size: 14px; 
+  
+  .app-container {
+    padding: 48px 40px;
   }
-  th, td { padding: 12px 8px; }
-  .th-content { font-size: 11px; gap: 4px; }
   
-  .mode-selector, .action-buttons { flex-direction: column; gap: 16px; }
-  .mode-btn, .action-btn { max-width: none; }
-  .tab-nav { gap: 8px; flex-wrap: wrap; }
-  .tab-button { padding: 12px 20px; font-size: 14px; min-height: 52px; flex: 1; }
+  .control-card {
+    padding: 32px;
+  }
   
-  .rakaat-selector { flex-direction: column; gap: 12px; text-align: center; padding: 16px; }
-  select { min-width: auto; width: 160px; }
+  .progress-section {
+    gap: 32px;
+  }
   
-  .progress-section { gap: 20px; }
+  .progress-card {
+    min-width: 220px;
+  }
+  
+  .section-header-new {
+    padding: 28px 32px;
+  }
+  
+  .table-wrapper-new {
+    max-height: 500px;
+  }
 }
 `;
 document.head.appendChild(style);
