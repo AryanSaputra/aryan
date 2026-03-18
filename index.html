@@ -4,7 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pencatat Tarawih & Witir</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 <style>
 * {
@@ -13,22 +14,28 @@
     box-sizing: border-box;
 }
 
+:root {
+    --bg-primary: linear-gradient(135deg, #0f172a 0%, #1a1f3a 50%, #1e293b 100%);
+    --glass-bg: rgba(30, 41, 59, 0.6);
+    --glass-border: rgba(255, 255, 255, 0.15);
+    --primary-blue: #3b82f6;
+    --primary-purple: #8b5cf6;
+    --success-green: #10b981;
+    --warning-orange: #f59e0b;
+    --danger-red: #ef4444;
+    --text-primary: #f8fafc;
+    --text-secondary: #cbd5e1;
+    --shadow-soft: 0 8px 32px rgba(0, 0, 0, 0.3);
+    --shadow-glow: 0 0 20px rgba(59, 130, 246, 0.3);
+}
+
 body {
     font-family: 'Poppins', sans-serif;
-    background: 
-        radial-gradient(ellipse at bottom, #1a1f3a 0%, #0f172a 70%),
-        linear-gradient(135deg, #0f172a 0%, #1a1f3a 100%);
-    color: white;
-    text-align: center;
-    padding: 20px;
+    background: var(--bg-primary);
+    color: var(--text-primary);
     min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    line-height: 1.6;
-    position: relative;
     overflow-x: hidden;
+    position: relative;
 }
 
 body::before {
@@ -38,743 +45,1190 @@ body::before {
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: 
-        radial-gradient(2px 2px at 20px 30px, #f5a623, transparent),
-        radial-gradient(2px 2px at 40px 70px, #ff6b35, transparent),
-        radial-gradient(1px 1px at 90px 40px, #4ecdc4, transparent),
-        radial-gradient(1px 1px at 130px 80px, #45b7d1, transparent),
-        radial-gradient(2px 2px at 160px 30px, #f9ca24, transparent);
-    background-repeat: repeat;
-    background-size: 200px 100px;
-    animation: starsFloat 50s linear infinite;
+    background: radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.1) 0%, transparent 50%);
     z-index: -1;
-    opacity: 0.4;
+    animation: bgFloat 20s ease-in-out infinite;
 }
 
-@keyframes starsFloat {
-    0% { transform: translateY(0px) rotate(0deg); }
-    100% { transform: translateY(-100px) rotate(360deg); }
+@keyframes bgFloat {
+    0%, 100% { transform: scale(1) rotate(0deg); }
+    50% { transform: scale(1.05) rotate(1deg); }
 }
 
-.crescent-moon {
-    position: fixed;
-    top: 10%;
-    right: 10%;
-    width: 80px;
-    height: 80px;
-    border: 4px solid #f4d03f;
-    border-radius: 50%;
-    box-shadow: 0 0 30px #f4d03f44;
-    transform: rotate(-25deg);
-    z-index: -1;
-    opacity: 0.6;
-    animation: moonGlow 4s ease-in-out infinite alternate;
+.main-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 30px;
 }
 
-@keyframes moonGlow {
-    from { box-shadow: 0 0 30px #f4d03f44; }
-    to { box-shadow: 0 0 50px #f4d03f88, 0 0 70px #f4d03f44; }
-}
-
-h2 {
-    font-size: clamp(28px, 8vw, 42px);
-    margin-bottom: 12px;
-    background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 50%, #ec4899 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    letter-spacing: -1px;
-    font-weight: 800;
+.countdown-section {
     position: relative;
-    animation: titleShimmer 3s ease-in-out infinite;
-    text-shadow: 0 0 30px rgba(59, 130, 246, 0.5);
+    width: 100%;
+    max-width: 700px;
+    margin: 0 auto;
 }
 
-@keyframes titleShimmer {
-    0%, 100% { background-position: -200% 0; }
-    50% { background-position: 200% 0; }
+.countdown-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    padding: 40px 30px;
+    box-shadow: var(--shadow-soft);
+    position: relative;
+    overflow: hidden;
+    animation: slideUp 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-h2 {
-    background-size: 200% 100% !important;
+.countdown-card::before {
+    content: '🕌';
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    font-size: 36px;
+    opacity: 0.2;
+    animation: mosqueFloat 4s ease-in-out infinite;
+    filter: drop-shadow(0 0 10px rgba(255,255,255,0.3));
 }
 
-h3 {
-    font-size: clamp(16px, 5vw, 20px);
+@keyframes mosqueFloat {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-8px) rotate(2deg); }
+}
+
+.countdown-title {
+    font-size: clamp(24px, 5vw, 32px);
     margin-bottom: 24px;
-    background: linear-gradient(135deg, #10b981 0%, #3b82f6 100%);
+    background: linear-gradient(135deg, #60a5fa, #a5b4fc);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
     font-weight: 700;
-    text-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
+    letter-spacing: -0.5px;
 }
 
-.container {
-    background: rgba(30, 41, 59, 0.5);
-    backdrop-filter: blur(25px);
-    -webkit-backdrop-filter: blur(25px);
-    padding: clamp(28px, 7vw, 56px);
-    border-radius: 32px;
+.timer-display {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.timer-unit {
+    position: relative;
+    background: rgba(15, 23, 42, 0.8);
+    border: 2px solid rgba(59, 130, 246, 0.3);
+    border-radius: 20px;
+    padding: 24px 20px;
+    min-width: 90px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    transition: all 0.3s ease;
+    animation: countPulse 2s ease-in-out infinite;
+}
+
+.timer-unit:hover {
+    transform: scale(1.05);
+    box-shadow: var(--shadow-glow), 0 0 30px rgba(59, 130, 246, 0.4);
+    border-color: var(--primary-blue);
+}
+
+.timer-number {
+    font-size: clamp(28px, 6vw, 36px);
+    font-weight: 800;
+    color: var(--primary-blue);
+    display: block;
+    text-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
+}
+
+.timer-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin-top: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+@keyframes countPulse {
+    0%, 100% { box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4); }
+    50% { box-shadow: 0 12px 32px rgba(59, 130, 246, 0.2); }
+}
+
+.app-container {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    padding: 40px;
+    box-shadow: var(--shadow-soft);
+    max-width: 900px;
     width: 100%;
-    max-width: 950px;
-    box-shadow: 
-        0 35px 100px rgba(0, 0, 0, 0.6), 
-        inset 0 1px 0 rgba(255, 255, 255, 0.15),
-        0 0 50px rgba(59, 130, 246, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    animation: slideUpFloat 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    margin: 0 auto;
+    animation: slideUp 1s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s both;
+}
+
+.app-title {
+    font-size: clamp(28px, 6vw, 40px);
+    background: linear-gradient(135deg, var(--primary-blue), var(--primary-purple));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 8px;
+    font-weight: 800;
+}
+
+.app-subtitle {
+    color: var(--text-secondary);
+    font-size: 16px;
+    margin-bottom: 32px;
+}
+
+.control-card {
+    background: rgba(30, 41, 59, 0.5);
+    border: 1px solid rgba(71, 85, 105, 0.4);
+    border-radius: 20px;
+    padding: 24px;
+    margin-bottom: 24px;
+}
+
+.tab-nav {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+}
+
+.tab-button {
+    padding: 16px 28px;
+    background: rgba(255,255,255,0.05);
+    border: 2px solid transparent;
+    border-radius: 16px;
+    color: var(--text-secondary);
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(10px);
     position: relative;
     overflow: hidden;
 }
 
-.container::before {
+.tab-button::before {
     content: '';
     position: absolute;
     top: 0;
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-    animation: containerShine 3s infinite;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.6s;
 }
 
-@keyframes slideUpFloat {
-    from {
-        opacity: 0;
-        transform: translateY(30px) scale(0.95);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
+.tab-button:hover::before {
+    left: 100%;
 }
 
-@keyframes containerShine {
-    0% { left: -100%; }
-    100% { left: 100%; }
+.tab-button:hover {
+    border-color: var(--primary-blue);
+    color: white;
+    transform: translateY(-2px);
 }
 
-@keyframes slideUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+.tab-button.active {
+    background: linear-gradient(135deg, var(--primary-blue), #2563eb);
+    border-color: var(--primary-blue);
+    color: white;
+    box-shadow: 0 10px 30px rgba(59, 130, 246, 0.4);
+    transform: translateY(-4px);
 }
 
-@keyframes fadeInRow {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-tr {
-    animation: fadeInRow 0.4s ease-out;
-}
-
-.button-group {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: 16px;
+.mode-selector {
+    display: flex;
     justify-content: center;
-    margin-bottom: 28px;
-    max-width: 600px;
+    gap: 20px;
+    margin: 24px 0;
+    flex-wrap: wrap;
 }
 
-button, select {
-    padding: clamp(10px, 3vw, 12px) clamp(15px, 4vw, 20px);
+.mode-btn {
+    padding: 18px 32px;
     border: none;
-    border-radius: 8px;
-    font-size: clamp(13px, 3vw, 15px);
-    font-weight: 600;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 20px;
+    font-size: 16px;
+    font-weight: 700;
     cursor: pointer;
-    flex: 1;
-    min-width: 120px;
-}
-
-button:hover, select:hover {
-    transform: translateY(-3px) scale(1.03);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 30px rgba(var(--button-glow));
-}
-
-button {
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: var(--shadow-soft);
     position: relative;
     overflow: hidden;
+    min-height: 64px;
+    flex: 1;
+    max-width: 200px;
 }
 
-button::before {
+.mode-btn::before {
     content: '';
     position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0;
-    height: 0;
-    background: rgba(255, 255, 255, 0.3);
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    transition: width 0.6s, height 0.6s;
-}
-
-button:active::before {
-    width: 300px;
-    height: 300px;
-}
-
-button:active {
-    transform: translateY(-1px) scale(0.98);
-    transition: transform 0.1s ease;
-}
-
-select {
-    background: #1e293b;
-    color: white;
-    border: 2px solid #475569;
-    cursor: pointer;
-    flex: none;
-    min-width: auto;
+    top: 0;
+    left: -100%;
     width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    transition: left 0.7s;
 }
 
-select:hover {
-    border-color: #64748b;
+.mode-btn:hover::before {
+    left: 100%;
 }
 
-.tarawihBtn {
-    --button-glow: 59, 130, 246;
-    background: linear-gradient(135deg, #2563eb, #1d4ed8, #1e40af);
-    background-size: 200% 200%;
-    animation: gradientShift 4s ease infinite;
+.tarawih-mode {
+    background: linear-gradient(135deg, var(--primary-blue), #2563eb);
     color: white;
 }
 
-.tarawihBtn:hover {
-    background: linear-gradient(135deg, #3b82f6, #2563eb);
+.tarawih-mode:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(59, 130, 246, 0.5);
 }
 
-.witirBtn {
-    --button-glow: 139, 92, 246;
-    background: linear-gradient(135deg, #7c3aed, #6d28d9, #581c87);
-    background-size: 200% 200%;
-    animation: gradientShift 4s ease infinite reverse;
+.witir-mode {
+    background: linear-gradient(135deg, var(--primary-purple), #7c3aed);
     color: white;
 }
 
-.witirBtn:hover {
-    background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+.witir-mode:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(139, 92, 246, 0.5);
 }
 
-.add {
-    background: linear-gradient(135deg, #22c55e, #16a34a);
-    color: white;
-}
-
-.add:hover {
-    background: linear-gradient(135deg, #4ade80, #22c55e);
-}
-
-.reset {
-    background: linear-gradient(135deg, #ef4444, #dc2626);
-    color: white;
-}
-
-.reset:hover {
-    background: linear-gradient(135deg, #f87171, #ef4444);
-}
-
-label {
-    display: block;
-    margin-bottom: 10px;
-    font-weight: 600;
-    color: #e2e8f0;
-    font-size: clamp(13px, 3vw, 15px);
-    text-align: left;
-}
-
-div[id^="opsi"] {
+.mode-status {
+    font-size: clamp(18px, 4vw, 22px);
+    font-weight: 700;
     margin: 20px 0;
-    padding: 15px;
-    background: rgba(30, 41, 59, 0.5);
-    border-radius: 8px;
-    border-left: 4px solid #3b82f6;
+    padding: 16px;
+    background: rgba(16, 185, 129, 0.2);
+    border-radius: 16px;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    color: var(--success-green);
 }
 
-#opsiWitir {
-    border-left-color: #8b5cf6;
+.rakaat-selector {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    background: rgba(30, 41, 59, 0.6);
+    border-radius: 16px;
+    padding: 20px 24px;
+    border: 1px solid rgba(71, 85, 105, 0.4);
+    backdrop-filter: blur(10px);
+    flex-wrap: wrap;
 }
 
-.table-wrapper {
-    width: 100%;
-    margin-top: 36px;
-    border-radius: 24px;
+.rakaat-selector.hidden {
+    display: none;
+}
+
+.rakaat-selector label {
+    font-weight: 600;
+    font-size: 16px;
+    color: var(--text-primary);
+    white-space: nowrap;
+}
+
+.rakaat-selector select {
+    background: rgba(30, 41, 59, 0.8);
+    border: 2px solid rgba(71, 85, 105, 0.5);
+    color: var(--text-primary);
+    padding: 12px 20px;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    min-width: 140px;
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+}
+
+.rakaat-selector select:hover,
+.rakaat-selector select:focus {
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+    outline: none;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin: 32px 0;
+    flex-wrap: wrap;
+}
+
+.action-btn {
+    padding: 18px 36px;
+    border: none;
+    border-radius: 20px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: var(--shadow-soft);
+    position: relative;
     overflow: hidden;
-    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.5), 0 0 30px rgba(59, 130, 246, 0.2);
-    backdrop-filter: blur(15px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    animation: tableFadeIn 0.6s ease-out 0.3s both;
+    min-height: 64px;
+    flex: 1;
+    max-width: 220px;
 }
 
-@keyframes tableFadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+.action-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    transition: left 0.7s;
+}
+
+.action-btn:hover::before {
+    left: 100%;
+}
+
+.add-btn {
+    background: linear-gradient(135deg, var(--success-green), #059669);
+    color: white;
+}
+
+.add-btn:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(16, 185, 129, 0.5);
+}
+
+.reset-btn {
+    background: linear-gradient(135deg, var(--danger-red), #dc2626);
+    color: white;
+}
+
+.reset-btn:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(239, 68, 68, 0.5);
+}
+
+.progress-section {
+    display: flex;
+    gap: 24px;
+    justify-content: center;
+    margin: 24px 0;
+    flex-wrap: wrap;
+}
+
+.progress-card {
+    background: rgba(30, 41, 59, 0.5);
+    border-radius: 20px;
+    padding: 24px;
+    border: 1px solid rgba(71, 85, 105, 0.4);
+    flex: 1;
+    min-width: 200px;
+    position: relative;
+}
+
+.progress-ring {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 16px;
+}
+
+.progress-ring-circle {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tarawih-ring .progress-ring-bg {
+    background: conic-gradient(var(--primary-blue) 0deg 0deg, rgba(71, 85, 105, 0.3) 0deg 360deg);
+}
+
+.tarawih-ring .progress-ring-fg {
+    background: conic-gradient(var(--primary-blue) 0deg var(--tarawih-progress), rgba(71, 85, 105, 0.1) var(--tarawih-progress) 360deg);
+}
+
+.witir-ring .progress-ring-bg {
+    background: conic-gradient(var(--primary-purple) 0deg 0deg, rgba(71, 85, 105, 0.3) 0deg 360deg);
+}
+
+.witir-ring .progress-ring-fg {
+    background: conic-gradient(var(--primary-purple) 0deg var(--witir-progress), rgba(71, 85, 105, 0.1) var(--witir-progress) 360deg);
+}
+
+.progress-ring-bg, .progress-ring-fg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 50%;
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.progress-number {
+    background: var(--glass-bg);
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--text-primary);
+    border: 3px solid var(--glass-border);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+.progress-label {
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 14px;
+}
+
+.records-section-new {
+    margin-top: 32px;
+}
+
+.section-header-new {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0;
+    box-shadow: var(--shadow-soft);
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.header-content h3 {
+    font-size: 24px;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--primary-blue), var(--primary-purple));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin: 0;
+}
+
+.subtitle-new {
+    color: var(--text-secondary);
+    font-size: 14px;
+    margin: 4px 0 0 0;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.record-stats-new {
+    background: rgba(59, 130, 246, 0.2);
+    color: var(--primary-blue);
+    padding: 12px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+.clear-btn-new {
+    width: 44px;
+    height: 44px;
+    background: rgba(239, 68, 68, 0.15);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    border-radius: 12px;
+    color: var(--danger-red);
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.clear-btn-new:hover {
+    background: rgba(239, 68, 68, 0.3);
+    color: white;
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+.table-container-new {
+    background: var(--glass-bg);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: var(--shadow-soft);
+    border-top: 1px solid var(--glass-border);
+}
+
+.table-wrapper-new {
+    max-height: 420px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(139, 92, 246, 0.4) transparent;
+}
+
+.table-wrapper-new::-webkit-scrollbar {
+    width: 5px;
+}
+
+.table-wrapper-new::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.table-wrapper-new::-webkit-scrollbar-thumb {
+    background: linear-gradient(var(--primary-purple), #a5b4fc);
+    border-radius: 3px;
+}
+
+.table-wrapper-new::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(#7c3aed, var(--primary-purple));
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
-    background: rgba(30, 41, 59, 0.7);
-    backdrop-filter: blur(20px);
-    font-size: clamp(13px, 3vw, 16px);
-    border-radius: 16px;
-    overflow: hidden;
-}
-
-tbody tr:nth-child(even) {
-    background: rgba(51, 65, 85, 0.4);
-}
-
-tbody tr:hover {
-    background: rgba(79, 70, 229, 0.2) !important;
-    transform: scale(1.01);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    font-size: 15px;
 }
 
 th {
-    background: linear-gradient(135deg, rgba(30, 64, 175, 0.9), rgba(109, 40, 217, 0.9));
-    backdrop-filter: blur(10px);
-    padding: clamp(14px, 3.5vw, 18px) clamp(10px, 2.5vw, 14px);
-    font-weight: 700;
-    text-transform: uppercase;
-    font-size: clamp(12px, 3vw, 14px);
-    letter-spacing: 1px;
-    color: #f0f9ff;
+    padding: 20px 16px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-align: center;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+    background: rgba(30, 41, 59, 0.7);
     position: sticky;
     top: 0;
-    z-index: 20;
-    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+    z-index: 10;
+    border-bottom: 1px solid var(--glass-border);
 }
 
 td {
-    padding: clamp(16px, 4vw, 18px) clamp(14px, 3.5vw, 18px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    word-break: break-word;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
+    padding: 20px 16px;
+    text-align: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    vertical-align: middle;
+    font-weight: 500;
+    transition: all 0.3s ease;
 }
 
-td:hover {
-    background: rgba(255, 255, 255, 0.05);
+tr {
+    background: rgba(255, 255, 255, 0.02);
+    transition: all 0.3s ease;
 }
 
-tr:last-child td {
-    border-bottom: none;
+tr:nth-child(even) {
+    background: rgba(255, 255, 255, 0.04);
 }
 
-.tarawih {
-    background: linear-gradient(90deg, #1e40af 0%, #1e3a8a 100%);
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+tr:hover {
+    background: rgba(59, 130, 246, 0.1) !important;
+    transform: translateY(-1px);
+    box-shadow: 0 8px 25px rgba(59, 130, 246, 0.2);
 }
 
-.tarawih:hover {
-    background: linear-gradient(90deg, #3b82f6 0%, #2563eb 100%);
-    transform: scale(1.01);
-    box-shadow: 0 0 12px rgba(59, 130, 246, 0.4);
+.tarawih-row td:first-child::before {
+    content: '';
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background: var(--primary-blue);
+    border-radius: 50%;
+    margin-right: 12px;
+    vertical-align: middle;
 }
 
-.witir {
-    background: linear-gradient(90deg, #6d28d9 0%, #581c87 100%);
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+.witir-row td:first-child::before {
+    content: '';
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background: var(--primary-purple);
+    border-radius: 50%;
+    margin-right: 12px;
+    vertical-align: middle;
 }
 
-.witir:hover {
-    background: linear-gradient(90deg, #8b5cf6 0%, #7c3aed 100%);
-    transform: scale(1.01);
-    box-shadow: 0 0 12px rgba(139, 92, 246, 0.4);
+.break-row {
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.3), rgba(251, 146, 60, 0.3)) !important;
+    border-left: 4px solid var(--warning-orange);
 }
 
-.break {
-    background: linear-gradient(90deg, #f59e0b 0%, #d97706 100%);
-    color: #1f2937;
-    font-weight: bold;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+.break-row td {
+    color: var(--text-primary);
+    font-weight: 600;
 }
 
-.break:hover {
-    background: linear-gradient(90deg, #fbbf24 0%, #f59e0b 100%);
-    transform: scale(1.01);
-    box-shadow: 0 0 12px rgba(245, 158, 11, 0.4);
-}
-
-br {
-    display: block;
-    margin: 8px 0;
-}
-
-/* Tablet & Desktop */
-@media (min-width: 768px) {
-    body {
-        padding: 40px 20px;
-    }
-
-    .container {
-        padding: 40px;
-    }
-
-    button, select {
-        min-width: 140px;
-        flex: 0 1 auto;
-    }
-
-    .button-group {
-        gap: 12px;
-    }
-
-    table {
-        font-size: 15px;
-    }
-}
-
-/* Large Desktop */
-@media (min-width: 1024px) {
-    .container {
-        max-width: 900px;
-    }
-
-    button:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
-    }
-
-    .tarawih:hover, .witir:hover, .break:hover {
-        transform: scale(1.02);
-    }
-}
-
-/* Mobile optimization */
-@media (max-width: 480px) {
-    .button-group {
-        grid-template-columns: 1fr;
-        gap: 12px;
-        margin-bottom: 20px;
-    }
-
-    .table-wrapper {
-        border-radius: 16px;
-        margin-top: 20px;
-    }
-
-    table {
-        font-size: 13px;
-    }
-
-    th {
-        padding: 12px 8px;
-        font-size: 11px;
-    }
-
-    td {
-        padding: 10px 8px;
-        font-size: 12px;
-    }
-
-    body {
+/* Mobile Optimizations */
+@media (max-width: 768px) {
+    .main-container {
         padding: 16px;
+        gap: 24px;
     }
-
-    .container {
+    
+    .app-container {
         padding: 24px;
         border-radius: 20px;
     }
-
-    div[id^="opsi"] {
-        padding: 16px;
-        border-radius: 12px;
-        margin: 18px 0;
-    }
-
-    .metode-box {
+    
+    .mode-selector, .action-buttons {
         flex-direction: column;
-        gap: 12px;
-        align-items: stretch;
     }
-
-    .metode-box select {
-        width: 100%;
-        min-width: unset;
+    
+    .mode-btn, .action-btn {
+        max-width: none;
     }
-}
-
-/* Extra small devices */
-@media (max-width: 360px) {
-    .container {
-        padding: 15px;
+    
+    .tab-nav {
+        gap: 8px;
     }
-
-    h2 {
-        font-size: 20px;
+    
+    .tab-button {
+        padding: 14px 20px;
+        font-size: 14px;
+        min-height: 56px;
     }
-
-    button, select {
-        padding: 10px;
-        font-size: 13px;
-        margin-bottom: 8px;
+    
+    table, th, td {
+        font-size: 14px;
     }
-
-    table {
-        font-size: 10px;
-    }
-
+    
     th, td {
-        padding: 8px 4px;
+        padding: 16px 8px;
     }
-}
-
-.metode-box {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 16px;
-    margin-bottom: 24px;
-    flex-wrap: wrap;
-}
-
-.metode-box label {
-    margin: 0;
-    font-weight: 600;
-    font-size: clamp(14px, 3.5vw, 16px);
-    white-space: nowrap;
-}
-
-.metode-box select {
-    flex: 1;
-    min-width: 160px;
-    max-width: 220px;
-    padding: clamp(12px, 3vw, 14px) clamp(18px, 4vw, 24px);
-    border-radius: 12px;
-}
-
-.mode-buttons{
-    display:flex;
-    gap:10px;
-    justify-content:center;
-    margin-bottom: 20px;
-}
-
-/* Countdown Styles */
-.countdown-display {
-    text-align: center;
-    padding: clamp(32px, 6vw, 52px);
-    margin-bottom: 40px;
-    background: rgba(15, 23, 42, 0.4);
-    backdrop-filter: blur(30px);
-    -webkit-backdrop-filter: blur(30px);
-    border-radius: 32px;
-    border: 2px solid rgba(59, 130, 246, 0.6);
-    box-shadow: 
-        0 30px 80px rgba(59, 130, 246, 0.3), 
-        0 0 60px rgba(139, 92, 246, 0.2),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1);
-    animation: pulseGlowBig 2.5s ease-in-out infinite alternate, slideUp 1s ease-out;
-    position: relative;
-    overflow: hidden;
-}
-
-.countdown-display::before {
-    content: '🕌';
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    font-size: 32px;
-    opacity: 0.3;
-    animation: floatIcon 3s ease-in-out infinite;
-}
-
-@keyframes floatIcon {
-    0%, 100% { transform: translateY(0px) rotate(0deg); }
-    50% { transform: translateY(-10px) rotate(5deg); }
-}
-
-@keyframes pulseGlowBig {
-    from { box-shadow: 0 30px 80px rgba(59, 130, 246, 0.3), 0 0 60px rgba(139, 92, 246, 0.2); }
-    to { box-shadow: 0 40px 100px rgba(59, 130, 246, 0.4), 0 0 80px rgba(139, 92, 246, 0.3); }
-}
-
-@keyframes pulseGlow {
-    from { box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3); }
-    to { box-shadow: 0 10px 30px rgba(139, 92, 246, 0.5); }
-}
-
-@keyframes gradientShift {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
-
-#countdownTitle {
-    font-size: clamp(20px, 6vw, 32px);
-    margin-bottom: 20px;
-    background: linear-gradient(135deg, #3b82f6, #8b5cf6, #ec4899);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    font-weight: 700;
-}
-
-.timer-display {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    flex-wrap: wrap;
-    margin-bottom: 10px;
-}
-
-.timer-display span {
-    background: linear-gradient(135deg, #1e40af, #7c3aed);
-    padding: 15px 20px;
-    border-radius: 12px;
-    font-size: clamp(18px, 5vw, 28px);
-    font-weight: 700;
-    min-width: 70px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-    position: relative;
-    overflow: hidden;
-}
-
-.timer-display span::after {
-    content: attr(data-label);
-    position: absolute;
-    bottom: 5px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 0.5em;
-    font-weight: 500;
-    opacity: 0.8;
 }
 
 @media (max-width: 480px) {
     .timer-display {
-        gap: 10px;
+        gap: 12px;
     }
-    .timer-display span {
-        padding: 12px 15px;
-        min-width: 60px;
-        font-size: 20px;
+    
+    .timer-unit {
+        padding: 16px 12px;
+        min-width: 75px;
+    }
+    
+    .timer-number {
+        font-size: 24px;
+    }
+    
+    .rakaat-selector {
+        flex-direction: column;
+        gap: 12px;
+        text-align: center;
+    }
+    
+    .progress-section {
+        flex-direction: column;
+        align-items: center;
     }
 }
+
+/* Completion Celebrations */
+.confetti {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1000;
+}
+
+@keyframes confetti-fall {
+    0% {
+        transform: translateY(-100vh) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh) rotate(720deg);
+        opacity: 0;
+    }
+}
+
+/* Focus States for Accessibility */
+button:focus, select:focus {
+    outline: 3px solid var(--primary-blue);
+    outline-offset: 2px;
+}
+
+/* Loading Animation */
+.loading {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: slideUp 0.6s ease-out forwards;
+}
+
+.loading.delay-1 { animation-delay: 0.1s; }
+.loading.delay-2 { animation-delay: 0.2s; }
+.loading.delay-3 { animation-delay: 0.3s; }
 </style>
 
 </head>
 
-<body>
+<body class="loading">
 
-<div id="lebaranCountdown" class="countdown-container">
-  
+<div class="main-container">
   <!-- Countdown Section -->
-  <div id="countdownSection" class="countdown-display">
-<h1 id="countdownTitle">⏳ Menuju Hari Raya Idul Fitri</h1>
-    <div id="countdownTimer" class="timer-display">
-      <span id="days">00</span>
-      <span id="hours">00</span>
-      <span id="minutes">00</span>
-      <span id="seconds">00</span>
+  <section class="countdown-section loading delay-1">
+    <div class="countdown-card" id="countdownSection">
+      <h1 class="countdown-title" id="countdownTitle">⏳ Menuju Hari Raya Idul Fitri</h1>
+      <div id="countdownTimer" class="timer-display">
+        <div class="timer-unit">
+          <span class="timer-number" id="days">00</span>
+          <span class="timer-label">Hari</span>
+        </div>
+        <div class="timer-unit">
+          <span class="timer-number" id="hours">00</span>
+          <span class="timer-label">Jam</span>
+        </div>
+        <div class="timer-unit">
+          <span class="timer-number" id="minutes">00</span>
+          <span class="timer-label">Menit</span>
+        </div>
+        <div class="timer-unit">
+          <span class="timer-number" id="seconds">00</span>
+          <span class="timer-label">Detik</span>
+        </div>
+      </div>
+      <p id="lebaranMessage" style="display:none; font-size: clamp(18px, 3vw, 24px); margin-top: 24px; color: #22c55e; font-weight: 700; animation: celebratePulse 2s infinite;">🎉 Selamat Idul Fitri! Website ditutup sementara. Maaf lahir batin! 🕌</p>
     </div>
-    <p id="lebaranMessage" style="display:none; font-size: 1.2em; margin-top: 20px;">🎉 Selamat Idul Fitri! Website ditutup sementara. Maaf lahir batin! 🕌</p>
-  </div>
+  </section>
 
-<div class="container">
-<h2>Pencatat Tarawih & Witir</h2>
-<div class="metode-box">
-<label for="metodeRamadan">Pilih Metode:</label>
-<select id="metodeRamadan" onchange="gantiMetode()">
-<option value="NU">Nahdlatul Ulama</option>
-<option value="Muhammadiyah">Muhammadiyah</option>
-</select>
-</div>
-<h3 id="status">Mode: Tarawih</h3>
+  <!-- Main App -->
+  <main class="app-container loading delay-2">
+    <h1 class="app-title">Pencatat Tarawih & Witir</h1>
+    <p class="app-subtitle">Catat rakaat sholat Tarawih dan Witir secara real-time</p>
+    
+    <div class="control-card loading delay-3">
+      <div class="tab-nav">
+        <button class="tab-button nu-tab active" onclick="setMetode('NU')">
+          <i class="fas fa-mosque"></i> NU
+        </button>
+        <button class="tab-button muh-tab" onclick="setMetode('Muhammadiyah')">
+          <i class="fas fa-university"></i> MUH
+        </button>
+      </div>
+      
+      <div class="mode-status" id="status">🕌 Mode: Tarawih</div>
+      
+      <div class="mode-selector">
+        <button class="mode-btn tarawih-mode" onclick="modeTarawih()">
+          <i class="fas fa-mosque"></i><br>Tarawih
+        </button>
+        <button class="mode-btn witir-mode" onclick="modeWitir()">
+          <i class="fas fa-star"></i><br>Witir
+        </button>
+      </div>
+    </div>
 
-<div class="mode-buttons">
-<button class="tarawihBtn" onclick="modeTarawih()" aria-label="Switch to Tarawih mode">🕌 Tarawih</button>
-<button class="witirBtn" onclick="modeWitir()" aria-label="Switch to Witir mode">🌟 Witir</button>
+    <div id="tarawihSelector" class="rakaat-selector">
+      <label id="labelTarawih">Tarawih per</label>
+      <select id="modeRakaat">
+        <option value="1">1 Rakaat</option>
+        <option value="2" selected>2 Rakaat</option>
+      </select>
+    </div>
+
+    <div id="witirSelector" class="rakaat-selector hidden">
+      <label id="labelWitir">Witir per</label>
+      <select id="modeRakaatWitir">
+        <option value="1">1 Rakaat</option>
+        <option value="2" selected>2 Rakaat</option>
+      </select>
+    </div>
+
+    <div class="progress-section" id="progressSection">
+      <div class="progress-card tarawih-ring">
+        <div class="progress-ring">
+          <div class="progress-ring-circle progress-ring-bg">
+            <div class="progress-ring-circle progress-ring-fg">
+              <div class="progress-number" id="tarawihProgress">0</div>
+            </div>
+          </div>
+        </div>
+        <div class="progress-label">Tarawih</div>
+      </div>
+      <div class="progress-card witir-ring">
+        <div class="progress-ring">
+          <div class="progress-ring-circle progress-ring-bg">
+            <div class="progress-ring-circle progress-ring-fg">
+              <div class="progress-number" id="witirProgress">0</div>
+            </div>
+          </div>
+        </div>
+        <div class="progress-label">Witir</div>
+      </div>
+    </div>
+
+    <div class="action-buttons">
+      <button class="action-btn add-btn" onclick="tambah()" id="btnTambah">
+        <i class="fas fa-plus"></i><br>Tambah
+      </button>
+      <button class="action-btn reset-btn" onclick="reset()">
+        <i class="fas fa-redo"></i><br>Reset
+      </button>
+    </div>
+
+<div class="records-section-new">
+      <div class="section-header-new">
+        <div class="header-content">
+          <i class="fas fa-history"></i>
+          <div>
+            <h3>Riwayat Sholat</h3>
+            <p class="subtitle-new">Catatan real-time Tarawih & Witir</p>
+          </div>
+        </div>
+        <div class="header-actions">
+          <div class="record-stats-new" id="recordStats">
+            <span class="stat-number" id="totalRecords">0</span>
+            <span class="stat-label">catatan</span>
+          </div>
+          <button class="clear-btn-new" onclick="clearAllRecords()" title="Hapus riwayat">
+            <i class="fas fa-trash-alt"></i>
+          </button>
+        </div>
+      </div>
+      <div class="table-container-new">
+        <div class="table-wrapper-new">
+          <table id="tabel" role="grid">
+            <thead>
+              <tr>
+                <th><i class="fas fa-mosque"></i> Jenis</th>
+                <th><i class="fas fa-prayer-rug"></i> Rakaat</th>
+                <th><i class="fas fa-clock"></i> Waktu</th>
+              </tr>
+            </thead>
+            <tbody role="rowgroup"></tbody>
+          </table>
+        </div>
+        <div class="empty-state-new" id="emptyState">
+          <div class="empty-content">
+            <i class="fas fa-prayer-rug" style="font-size: 3rem; opacity: 0.4;"></i>
+            <h4>Tunggu catatan pertama</h4>
+            <p>Tekan <strong>Tambah</strong> untuk mulai mencatat</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
 </div>
 
-<div id="opsiTarawih">
-<label id="labelHitung">Hitung Tarawih:</label><br>
-<select id="modeRakaat">
-<option value="1">Per 1 Rakaat</option>
-<option value="2">Per 2 Rakaat</option>
-</select>
-</div>
-
-<div id="opsiWitir" style="display:none">
-<label id="labelHitungWitir">Hitung Witir:</label><br>
-<select id="modeRakaatWitir">
-<option value="1">Per 1 Rakaat</option>
-<option value="2">Per 2 Rakaat</option>
-</select>
-</div>
-
-<button class="add" onclick="tambah()" id="btnTambah" aria-live="polite">➕ Tambah</button>
-<button class="reset" onclick="reset()">Reset</button>
-
-<div class="table-wrapper">
-<table id="tabel">
-<tr>
-<th>Salat</th>
-<th>Rakaat</th>
-<th>Waktu</th>
-</tr>
-</table>
-</div>
-</div>
+<div id="confetti" class="confetti" style="display: none;"></div>
 
 <script>
-let metode = "NU"
-function gantiMetode(){
-    metode = document.getElementById("metodeRamadan").value
-    
-    rakaatTarawih = 0
-    rakaatWitir = 0
-    
-    document.getElementById("tabel").innerHTML = `
-    <tr>
-    <th>Sholat</th>
-    <th>Rakaat</th>
-    <th>Waktu</th>
-    </tr>`
+// Global State
+let metode = "NU";
+let mode = "Tarawih";
+let rakaatTarawih = 0;
+let rakaatWitir = 0;
+let targetDate = new Date('2026-03-21T06:00:00');
+
+// DOM Elements
+const elements = {
+    status: document.getElementById('status'),
+    tarawihSelector: document.getElementById('tarawihSelector'),
+    witirSelector: document.getElementById('witirSelector'),
+    tarawihProgress: document.getElementById('tarawihProgress'),
+    witirProgress: document.getElementById('witirProgress'),
+    tabel: document.querySelector('#tabel tbody'),
+    btnTambah: document.getElementById('btnTambah'),
+    progressSection: document.getElementById('progressSection')
+};
+
+// Initialize
+document.addEventListener('DOMContentLoaded', function() {
+    updateProgress();
+    cekRamadan();
+    cekLebaran();
+    setInterval(updateCountdown, 1000);
+});
+
+// Utilities
+function waktu() {
+    const now = new Date();
+    return now.toLocaleTimeString('id-ID', { 
+        hour12: false, 
+        hour: '2-digit', 
+        minute: '2-digit', 
+        second: '2-digit' 
+    });
 }
 
-// Countdown to Idul Fitri
-const targetDate = new Date('2026-03-21T06:00:00'); // Website tutup sesuai request
+function updateProgress() {
+    const maxTarawih = metode === 'Muhammadiyah' ? 8 : 20;
+    const tarawihPercent = (rakaatTarawih / maxTarawih) * 360;
+    const witirPercent = (rakaatWitir / 3) * 360;
+    
+    document.documentElement.style.setProperty('--tarawih-progress', tarawihPercent + 'deg');
+    document.documentElement.style.setProperty('--witir-progress', witirPercent + 'deg');
+    
+    elements.tarawihProgress.textContent = rakaatTarawih;
+    elements.witirProgress.textContent = rakaatWitir;
+    
+    // Completion celebration
+    if (rakaatTarawih >= (metode === 'Muhammadiyah' ? 8 : 20) && rakaatWitir >= 3) {
+        showCompletion();
+    }
+}
 
+function updateRecordCount() {
+    const count = elements.tabel.children.length;
+    const totalEl = document.getElementById('totalRecords');
+    const emptyState = document.getElementById('emptyState');
+    if (totalEl) {
+        totalEl.textContent = count;
+    }
+    if (emptyState) {
+        emptyState.style.display = count === 0 ? 'block' : 'none';
+    }
+}
+
+// Mode Functions
+function setMetode(newMetode) {
+    metode = newMetode;
+    const tabs = document.querySelectorAll('.tab-button');
+    tabs.forEach(tab => tab.classList.remove('active'));
+    event.target.classList.add('active');
+    
+    // Reset
+    rakaatTarawih = 0;
+    rakaatWitir = 0;
+    elements.tabel.innerHTML = '';
+    updateProgress();
+    
+    modeTarawih(); // Default to Tarawih
+}
+
+function modeTarawih() {
+    mode = "Tarawih";
+    elements.status.innerHTML = '🕌 <strong>Mode: Tarawih</strong>';
+    elements.tarawihSelector.classList.remove('hidden');
+    elements.witirSelector.classList.add('hidden');
+    elements.btnTambah.innerHTML = '<i class="fas fa-plus"></i><br>Tambah';
+    document.getElementById('labelTarawih').textContent = `Tarawih per (${metode === 'Muhammadiyah' ? '8' : '20'} rakaat total)`;
+    
+    elements.tarawihSelector.style.animation = 'slideUp 0.5s ease-out';
+}
+
+function modeWitir() {
+    mode = "Witir";
+    elements.status.innerHTML = '🌟 <strong>Mode: Witir</strong>';
+    elements.tarawihSelector.classList.add('hidden');
+    elements.witirSelector.classList.remove('hidden');
+    elements.btnTambah.innerHTML = '<i class="fas fa-star"></i><br>Tambah';
+    document.getElementById('labelWitir').textContent = 'Witir per (3 rakaat total)';
+    
+    elements.witirSelector.style.animation = 'slideUp 0.5s ease-out';
+}
+
+function tambah() {
+    const tableBody = elements.tabel;
+    
+    if (mode === "Tarawih") {
+        const hitung = parseInt(document.getElementById("modeRakaat").value);
+        const maxTarawih = metode === "Muhammadiyah" ? 8 : 20;
+        
+        if (rakaatTarawih >= maxTarawih) {
+            showNotification(`✅ Tarawih selesai (${maxTarawih} rakaat)!`, 'success');
+            return;
+        }
+        
+        rakaatTarawih += hitung;
+        if (rakaatTarawih > maxTarawih) rakaatTarawih = maxTarawih;
+        
+        const startRakaat = rakaatTarawih - hitung + 1;
+        const teks = hitung === 1 ? startRakaat : startRakaat + "-" + rakaatTarawih;
+        
+        const newRow = document.createElement('tr');
+        newRow.className = 'tarawih-row';
+        newRow.innerHTML = `
+            <td><i class="fas fa-mosque"></i> Tarawih</td>
+            <td><strong>${teks}</strong></td>
+            <td>${waktu()}</td>
+        `;
+        tableBody.appendChild(newRow);
+        
+        // Add break row for specific milestones - consistent icon/content for all breaks
+        const milestones = metode === "NU" ? [12, 20] : [8];
+        if (milestones.includes(rakaatTarawih)) {
+            const breakRow = document.createElement('tr');
+            breakRow.className = 'break-row';
+            breakRow.innerHTML = `
+                <td><i class="fas fa-coffee"></i></td>
+                <td><strong>Istirahat</strong></td>
+                <td>${waktu()}</td>
+            `;
+            tableBody.appendChild(breakRow);
+        }
+        
+        showNotification(`+${hitung} rakaat Tarawih • Total: ${rakaatTarawih}/${maxTarawih}`, 'info');
+    } else {
+        const hitung = parseInt(document.getElementById("modeRakaatWitir").value);
+        
+        if (rakaatWitir >= 3) {
+            showNotification('✅ Witir sudah selesai (3 rakaat)!', 'success');
+            return;
+        }
+        
+        const startRakaat = rakaatWitir + 1;
+        rakaatWitir += hitung;
+        if (rakaatWitir > 3) rakaatWitir = 3;
+        
+        const teks = hitung === 1 ? startRakaat : startRakaat + "-" + rakaatWitir;
+        
+        const witirRow = document.createElement('tr');
+        witirRow.className = 'witir-row';
+        witirRow.innerHTML = `
+            <td><i class="fas fa-star"></i> Witir</td>
+            <td><strong>${teks}</strong></td>
+            <td>${waktu()}</td>
+        `;
+        tableBody.appendChild(witirRow);
+        
+        showNotification(`+${hitung} rakaat Witir • Total: ${rakaatWitir}/3`, 'info');
+    }
+    
+    updateProgress();
+    updateRecordCount();
+    animateNewRow();
+}
+
+function reset() {
+    if (confirm('Reset semua data Tarawih & Witir?')) {
+        rakaatTarawih = 0;
+        rakaatWitir = 0;
+        elements.tabel.innerHTML = '';
+        updateProgress();
+        updateRecordCount();
+        modeTarawih();
+        showNotification('🔄 Data berhasil direset', 'warning');
+    }
+}
+
+function clearAllRecords() {
+    if (confirm('Hapus semua riwayat sholat? (Progress Tarawih/Witir tetap)')) {
+        elements.tabel.innerHTML = '';
+        updateRecordCount();
+        showNotification('🗑️ Riwayat dihapus', 'warning');
+    }
+}
+
+// Enhanced Visual Effects
+function animateNewRow() {
+    const rows = elements.tabel.querySelectorAll('tr');
+    const newRow = rows[rows.length - 1];
+    newRow.style.animation = 'fadeInRow 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)';
+}
+
+function showNotification(message, type = 'info') {
+    // Create floating notification
+    const notification = document.createElement('div');
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: ${type === 'success' ? 'rgba(16,185,129,0.95)' : 
+                     type === 'warning' ? 'rgba(245,158,11,0.95)' : 
+                     'rgba(59,130,246,0.95)'};
+        color: white;
+        padding: 16px 24px;
+        border-radius: 16px;
+        box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+        font-weight: 600;
+        font-size: 15px;
+        z-index: 10000;
+        backdrop-filter: blur(20px);
+        transform: translateX(400px);
+        animation: slideInRight 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        max-width: 350px;
+    `;
+    notification.textContent = message;
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.style.animation = 'slideOutRight 0.4s ease forwards';
+        setTimeout(() => notification.remove(), 400);
+    }, 3000);
+}
+
+function showCompletion() {
+    showNotification('🎉 Selamat! Tarawih & Witir LENGKAP!', 'success');
+    createConfetti();
+    elements.status.innerHTML = '🏆 <strong>TARAWih & WITIR SELESAI!</strong>';
+    elements.status.style.background = 'linear-gradient(135deg, #22c55e, #4ade80)';
+    elements.status.style.color = '#1e2937';
+}
+
+function createConfetti() {
+    const confetti = document.getElementById('confetti');
+    confetti.style.display = 'block';
+    
+    for (let i = 0; i < 100; i++) {
+        const confetto = document.createElement('div');
+        confetto.style.cssText = `
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: ${['#3b82f6', '#8b5cf6', '#10b981', '#f59e0b', '#ef4444'][Math.floor(Math.random()*5)]};
+            left: ${Math.random() * 100}vw;
+            animation: confetti-fall ${2 + Math.random() * 3}s linear forwards;
+            animation-delay: ${Math.random() * 0.5}s;
+            border-radius: 50%;
+            z-index: 1001;
+            pointer-events: none;
+        `;
+        confetti.appendChild(confetto);
+        
+        setTimeout(() => confetto.remove(), 5000);
+    }
+    
+    setTimeout(() => confetti.style.display = 'none', 5000);
+}
+
+// Countdown Functions
 function updateCountdown() {
     const now = new Date();
     const timeLeft = targetDate - now;
     
     if (timeLeft <= 0) {
         document.getElementById('countdownSection').innerHTML = `
-            <h1 style="font-size: clamp(24px, 8vw, 48px); background: linear-gradient(135deg, #22c55e, #4ade80); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">🎉 SELAMAT HARI RAYA IDUL FITRI! 🎉</h1>
-            <p id="lebaranMessage" style="font-size: 1.4em; margin-top: 20px; color: #4ade80; font-weight: 600;">Website ditutup sementara. Maaf lahir batin! 🕌<br>Selamat Hari Raya Idul Fitri.</p>
+            <div style="animation: celebratePulse 2s infinite;">
+                <h1 style="font-size: clamp(32px, 8vw, 64px); background: linear-gradient(135deg, #22c55e, #4ade80); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 24px;">🎉 SELAMAT HARI RAYA IDUL FITRI! 🎉</h1>
+                <p style="font-size: clamp(18px, 4vw, 28px); color: #4ade80; font-weight: 700;">Website ditutup sementara. Maaf lahir batin! 🕌<br>Selamat Hari Raya Idul Fitri 1447 H.</p>
+            </div>
         `;
-        // Optionally hide main app
-        const mainContainer = document.querySelector('.container');
-        if (mainContainer) mainContainer.style.display = 'none';
+        document.querySelector('.app-container').style.display = 'none';
+        createConfetti();
         return;
     }
     
@@ -787,149 +1241,112 @@ function updateCountdown() {
     document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
     document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
     document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
-    
-    document.getElementById('days').setAttribute('data-label', 'Hari');
-    document.getElementById('hours').setAttribute('data-label', 'Jam');
-    document.getElementById('minutes').setAttribute('data-label', 'Menit');
-    document.getElementById('seconds').setAttribute('data-label', 'Detik');
 }
 
 function cekLebaran() {
-    const now = new Date();
-    if (now >= targetDate) {
-        updateCountdown(); // Triggers celebration
-        return;
-    }
     updateCountdown();
 }
 
-// Start countdown
-cekLebaran();
-setInterval(updateCountdown, 1000);
-
-
-
-// Batasi akses hanya saat Ramadan
-function cekRamadan(){
-    let sekarang = new Date()
-
-    // Tanggal Ramadan (ubah setiap tahun)
-    let mulai = new Date("2026-02-18")
-    let selesai = new Date("2026-03-19")
-
-    if(sekarang < mulai || sekarang > selesai){
-        document.body.innerHTML = `
-        <div style="
-        display:flex;
-        justify-content:center;
-        align-items:center;
-        height:100vh;
-        text-align:center;
-        font-family:sans-serif;
-        background:#0f172a;
-        color:white;
-        ">
-        <div>
-        <h1>🌙 Website hanya tersedia saat bulan Ramadan</h1>
-        <p>Silakan kembali lagi saat bulan suci Ramadan.</p>
-        </div>
-        </div>
-        `
-    }
-}
-
-cekRamadan()
-
-let mode="Tarawih"
-let rakaatTarawih=0
-let rakaatWitir=0
-
-function waktu(){
-    let now=new Date()
-    let h=String(now.getHours()).padStart(2,'0')
-    let m=String(now.getMinutes()).padStart(2,'0')
-    let s=String(now.getSeconds()).padStart(2,'0')
-    return h+":"+m+":"+s
-}
-
-function modeTarawih(){
-    mode="Tarawih"
-    document.getElementById("status").innerText="Mode: Tarawih"
-    document.getElementById("opsiTarawih").style.display="block"
-    document.getElementById("opsiWitir").style.display="none"
-    document.getElementById("btnTambah").innerText="Tambah"
-    document.getElementById("labelHitung").innerText="Hitung Tarawih:"
-}
-
-function modeWitir(){
-    mode="Witir"
-    document.getElementById("status").innerText="Mode: Witir"
-    document.getElementById("opsiTarawih").style.display="none"
-    document.getElementById("opsiWitir").style.display="block"
-    document.getElementById("btnTambah").innerText="Tambah"
-    document.getElementById("labelHitungWitir").innerText="Hitung Witir:"
-}
-
-function tambah(){
-    let tabel=document.getElementById("tabel")
+// Ramadan Check
+function cekRamadan() {
+    const sekarang = new Date();
+    const ramadanStart = new Date("2026-02-18");
+    const ramadanEnd = new Date("2026-03-19");
     
-    if(mode==="Tarawih"){
-        let hitung=parseInt(document.getElementById("modeRakaat").value)
-        let maksimal = metode === "Muhammadiyah" ? 8 : 20
-
-if(rakaatTarawih >= maksimal){
-    alert("Tarawih sudah selesai (" + maksimal + " rakaat)")
-    return
-}
-        rakaatTarawih+=hitung
-        if(rakaatTarawih>maksimal) rakaatTarawih=maksimal
-        let teks=hitung===1 ? rakaatTarawih : (rakaatTarawih-1)+"-"+rakaatTarawih
-        let newRow = document.createElement('tr');
-        newRow.className = 'tarawih';
-        newRow.innerHTML = `
-        <td>Tarawih</td>
-        <td>${teks}</td>
-        <td>${waktu()}</td>
+    if (sekarang < ramadanStart || sekarang > ramadanEnd) {
+        document.body.innerHTML = `
+            <div style="display: flex; justify-content: center; align-items: center; height: 100vh; text-align: center; background: var(--bg-primary); color: white; padding: 20px;">
+                <div class="countdown-card" style="max-width: 500px;">
+                    <div style="font-size: 48px; margin-bottom: 24px;">🌙</div>
+                    <h1 style="font-size: clamp(24px, 6vw, 36px); margin-bottom: 16px;">Website hanya tersedia saat Ramadan</h1>
+                    <p style="font-size: 18px; opacity: 0.9; line-height: 1.6;">Silakan kembali lagi saat bulan suci Ramadan.<br>Estimasi: 18 Feb - 19 Mar 2026</p>
+                    <div style="font-size: 14px; opacity: 0.7; margin-top: 32px;">Semoga Allah memudahkan ibadah kita semua 🤲</div>
+                </div>
+            </div>
         `;
-        tabel.appendChild(newRow);
-        if(
-(metode==="NU" && (rakaatTarawih===12 || rakaatTarawih===20)) ||
-(metode==="Muhammadiyah" && rakaatTarawih===8)
-){
-            let breakRow = document.createElement('tr');
-            breakRow.className = 'break';
-            breakRow.innerHTML = `
-            <td>-</td>
-            <td>Istirahat</td>
-            <td>${waktu()}</td>
-            `;
-            tabel.appendChild(breakRow);
-        }
-    }
-    else{
-        let hitung=parseInt(document.getElementById("modeRakaatWitir").value)
-        if(rakaatWitir>=3){
-            alert("Witir sudah selesai (3 rakaat)")
-            return
-        }
-        let start=rakaatWitir+1
-        rakaatWitir+=hitung
-        if(rakaatWitir>3) rakaatWitir=3
-        let teks=hitung===1 ? rakaatWitir : start+"-"+rakaatWitir
-        let witirRow = document.createElement('tr');
-        witirRow.className = 'witir';
-        witirRow.innerHTML = `
-        <td>Witir</td>
-        <td>${teks}</td>
-        <td>${waktu()}</td>
-        `;
-        tabel.appendChild(witirRow);
     }
 }
 
-function reset(){
-    location.reload()
+// Keybindings
+document.addEventListener('keydown', function(e) {
+    if (e.code === 'Space') {
+        e.preventDefault();
+        tambah();
+    } else if (e.code === 'KeyR' && e.ctrlKey) {
+        reset();
+    }
+});
+
+// Enhanced CSS for polish
+const style = document.createElement('style');
+style.textContent = `
+.th-content {
+  display: flex; align-items: center; gap: 8px; justify-content: center; padding: 4px 8px;
 }
+
+.table-container {
+  background: var(--glass-bg); border-radius: 0 0 24px 24px; overflow: hidden; box-shadow: var(--shadow-soft);
+}
+
+.empty-state-new {
+  background: rgba(30, 41, 59, 0.4);
+  backdrop-filter: blur(15px);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  padding: 60px 40px;
+  text-align: center;
+  margin: 20px;
+}
+
+.empty-content h4 {
+  color: var(--text-secondary);
+  margin: 16px 0 8px 0;
+  font-size: 20px;
+}
+
+.empty-content p {
+  color: var(--text-secondary);
+  opacity: 0.8;
+  margin: 0;
+}
+
+@keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes slideInRight { from { transform: translateX(400px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+@keyframes slideOutRight { from { transform: translateX(0); opacity: 1; } to { transform: translateX(400px); opacity: 0; } }
+@keyframes fadeInRow { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes celebratePulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+@keyframes confetti-fall { 0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; } 100% { transform: translateY(100vh) rotate(720deg); opacity: 0; } }
+
+@media (max-width: 768px) {
+  .main-container { padding: 16px; gap: 20px; }
+  .app-container { padding: 24px 20px; border-radius: 20px; }
+  .control-card { padding: 20px; }
+  .records-section { margin-top: 24px; }
+  .section-header.premium { padding: 20px 24px; flex-direction: column; gap: 16px; text-align: center; }
+  .header-left { justify-content: center; }
+  .header-right { justify-content: center; }
+  .table-scroll-wrapper { 
+    overflow-x: auto; overflow-y: hidden; max-height: none; 
+    -webkit-overflow-scrolling: touch;
+  }
+  table { 
+    min-width: 500px; font-size: 14px; 
+  }
+  th, td { padding: 12px 8px; }
+  .th-content { font-size: 11px; gap: 4px; }
+  
+  .mode-selector, .action-buttons { flex-direction: column; gap: 16px; }
+  .mode-btn, .action-btn { max-width: none; }
+  .tab-nav { gap: 8px; flex-wrap: wrap; }
+  .tab-button { padding: 12px 20px; font-size: 14px; min-height: 52px; flex: 1; }
+  
+  .rakaat-selector { flex-direction: column; gap: 12px; text-align: center; padding: 16px; }
+  select { min-width: auto; width: 160px; }
+  
+  .progress-section { gap: 20px; }
+}
+`;
+document.head.appendChild(style);
 </script>
 </body>
 </html>
